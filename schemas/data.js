@@ -6,23 +6,19 @@ const dataSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  menuName: {
+  institution: {
     type: String,
     required: true,
   },
-  menuName: {
+  ingredient: {
     type: String,
     required: true,
   },
-  menuName: {
+  onePerson: {
     type: String,
     required: true,
   },
-  menuName: {
-    type: String,
-    required: true,
-  },
-  menuName: {
+  eatingNum: {
     type: String,
     required: true,
   },

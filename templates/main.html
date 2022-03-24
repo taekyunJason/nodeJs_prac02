@@ -48,6 +48,8 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        align-self: center;
+
     }
 
     .wrap {
@@ -206,7 +208,7 @@
     }
 
     function moveCreatePage() {
-        window.location.href = "menu_onePerson";
+        window.location.href = "/onePerson";
     }
 
     function moveDetailPage() {
@@ -236,10 +238,17 @@
 <body>
     <div class="wrap">
 
-        <div class="headerTitle">
-            <h1>영양사를 위한 식단 저장소<p> 👉 '영양소'</h1>
+        <nav class="headerTitle">
+            <div class="container-fluid" style="flex-direction: column;">
+                <a class="navbar-brand" href="/main">영양사를 위한 식단 저장소<p> 👉 '영양소'</a>
+                <button onclick="moveCreatePage()" type="button" class="btn btn-outline-success">메뉴 등록하러 가기
+                    💁‍♂️</button>
+            </div>
+        </nav>
+        <!-- <div class="headerTitle">
+            <a href="/main">영양사를 위한 식단 저장소<p> 👉 '영양소'</a>
             <button onclick="moveCreatePage()" type="button" class="btn btn-outline-success">메뉴 등록하러 가기 💁‍♂️</button>
-        </div>
+        </div> -->
         <h2 id="putName"></h2>
     </div>
     <div class="mycards" id="comment-list">
