@@ -27,3 +27,6 @@ const dataSchema = mongoose.Schema({
     required: true,
   },
 });
+
+//모델이름 : nutrients, 스키마 : dataSchema
+module.exports = mongoose.model("nutrients", dataSchema);
