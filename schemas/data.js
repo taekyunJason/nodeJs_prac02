@@ -4,25 +4,32 @@ const mongoose = require("mongoose");
 const dataSchema = mongoose.Schema({
   menuName: {
     type: String,
-    required: true,
+    required: "Please enter the Menu Name",
+    trim: true,
+  },
+  menuId: {
+    type: String,
+    unique: true,
   },
   institution: {
     type: String,
-    required: true,
   },
   ingredient: {
     type: String,
     required: true,
+    trim: true,
   },
   onePerson: {
     type: String,
     required: true,
+    trim: true,
   },
   eatingNum: {
     type: String,
     required: true,
+    trim: true,
   },
 });
 
 //모델이름 : nutrients, 스키마 : dataSchema
-module.exports = mongoose.model("nutrients", dataSchema);
+module.exports = mongoose.model("Nutrients", dataSchema);

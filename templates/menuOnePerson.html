@@ -60,7 +60,7 @@
         function show_order() {
             $.ajax({
                 type: 'GET',
-                url: '/menus',
+                url: '/detail',
                 data: {},
                 success: function (response) {
                     console.log(response)
@@ -97,22 +97,22 @@
             let onePerson = $('#onePerson').val()
             let eatingNum = $('#eatingNum').val()
             let institution = $('#institution').val()
-            let additionalIngredient = $('#additionalIngredient').val()
-            let additionalOnePerson = $('#additionalOnePerson').val()
+            // let additionalIngredient = $('#additionalIngredient').val()
+            // let additionalOnePerson = $('#additionalOnePerson').val()
             let searchMenu = null;
 
             $.ajax({
                 type: 'POST',
-                url: '/menus',
+                url: '/detail',
                 data: {
-                    menuName_give: menuName,
-                    ingredient_give: ingredient,
-                    onePerson_give: onePerson,
-                    eatingNum_give: eatingNum,
-                    institution_give: institution,
+                    menuName: menuName,
+                    ingredient: ingredient,
+                    onePerson: onePerson,
+                    eatingNum: eatingNum,
+                    institution: institution,
                     // additionalIngredient_give: additionalIngredient,
                     // additionalOnePerson_give: additionalOnePerson,
-                    searchMenu_give: searchMenu
+                    searchMenu: searchMenu
                 },
                 success: function (response) {
                     console.log(response)

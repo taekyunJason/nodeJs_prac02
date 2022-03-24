@@ -1,5 +1,7 @@
 const express = require("express");
 const connect = require("./schemas");
+const cryptoJS = require("crypto-js");
+const Nutrient = require("./schemas/data");
 const app = express();
 const port = 3000;
 
@@ -30,18 +32,18 @@ app.get("/main", async (req, res) => {
 
 app.get("/onePerson", async (req, res) => {
   const path = require("path");
-  res.sendFile(path.join(__dirname + "/../templates/menuOnePerson.html"));
+  res.sendFile(path.join(__dirname + "/templates/menuOnePerson.html"));
 });
 
 app.get("/onePersonShow", async (req, res) => {
   const path = require("path");
-  res.sendFile(path.join(__dirname + "/../templates/menuOnePersonShow.html"));
+  res.sendFile(path.join(__dirname + "/templates/menuOnePersonShow.html"));
 });
 
 app.post("/detail", async (req, res) => {
   const today = new Date();
   const date = today.toLocaleString();
-  const { title, name, password, content } = req.body;
+  const { menuName, institution, ingredient, onePerson, eatingNum } = req.body;
   //   const postId = Post_ls[Post_ls.length - 1]["postId"];
 
   const getId = await Nutrient.find({});
@@ -62,11 +64,12 @@ app.post("/detail", async (req, res) => {
   //     });
   //   } else {
   const Menu_ls = await Nutrient.create({
-    title,
-    postId,
-    name,
-    password,
-    content,
+    menuName,
+    menuId,
+    institution,
+    ingredient,
+    onePerson,
+    eatingNum,
     date,
   });
 });
