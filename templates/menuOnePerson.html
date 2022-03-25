@@ -104,7 +104,8 @@
             $.ajax({
                 type: 'POST',
                 url: '/detail',
-                data: {
+                contentType: 'applicaion/JSON',
+                data: JSON.stringify({
                     menuName: menuName,
                     ingredient: ingredient,
                     onePerson: onePerson,
@@ -112,8 +113,8 @@
                     institution: institution,
                     // additionalIngredient_give: additionalIngredient,
                     // additionalOnePerson_give: additionalOnePerson,
-                    searchMenu: searchMenu
-                },
+                    // searchMenu: searchMenu
+                }),
                 success: function (response) {
                     console.log(response)
                     alert(response['msg'])

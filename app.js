@@ -30,6 +30,11 @@ app.get("/main", async (req, res) => {
   res.sendFile(path.join(__dirname + "/templates/main.html"));
 });
 
+app.get("/mainData", async (req, res) => {
+  const menuInfo = await Nutrient.find({});
+  res.json(menuInfo);
+});
+
 app.get("/onePerson", async (req, res) => {
   const path = require("path");
   res.sendFile(path.join(__dirname + "/templates/menuOnePerson.html"));
@@ -43,7 +48,7 @@ app.get("/onePersonShow", async (req, res) => {
 app.post("/detail", async (req, res) => {
   const today = new Date();
   const date = today.toLocaleString();
-  const { menuName, institution, ingredient, onePerson, eatingNum } = req.body;
+  const { menuName, ingredient, onePerson, eatingNum, institution } = req.body;
   //   const postId = Post_ls[Post_ls.length - 1]["postId"];
 
   const getId = await Nutrient.find({});
@@ -72,6 +77,8 @@ app.post("/detail", async (req, res) => {
     eatingNum,
     date,
   });
+
+  res.json({ msg: "저장되었습니다!" });
 });
 
 //app.listen : 포트번호로 서버를 켜는 코드

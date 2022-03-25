@@ -4,8 +4,7 @@ const mongoose = require("mongoose");
 const dataSchema = mongoose.Schema({
   menuName: {
     type: String,
-    required: "Please enter the Menu Name",
-    trim: true,
+    required: true,
   },
   menuId: {
     type: String,
@@ -17,17 +16,14 @@ const dataSchema = mongoose.Schema({
   ingredient: {
     type: String,
     required: true,
-    trim: true,
   },
   onePerson: {
     type: String,
     required: true,
-    trim: true,
   },
   eatingNum: {
     type: String,
     required: true,
-    trim: true,
   },
 });
 
