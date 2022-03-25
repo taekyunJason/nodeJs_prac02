@@ -2,6 +2,7 @@ const express = require("express");
 const connect = require("./schemas");
 const cryptoJS = require("crypto-js");
 const Nutrient = require("./schemas/data");
+const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
 
@@ -49,6 +50,8 @@ app.post("/detail", async (req, res) => {
   const today = new Date();
   const date = today.toLocaleString();
   const { menuName, ingredient, onePerson, eatingNum, institution } = req.body;
+
+  console.log(req.body);
   //   const postId = Post_ls[Post_ls.length - 1]["postId"];
 
   const getId = await Nutrient.find({});
