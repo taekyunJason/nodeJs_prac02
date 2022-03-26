@@ -99,28 +99,30 @@
             let institution = $('#institution').val()
             // let additionalIngredient = $('#additionalIngredient').val()
             // let additionalOnePerson = $('#additionalOnePerson').val()
-            let searchMenu = null;
+
 
             console.log(menuName, ingredient, onePerson, eatingNum, institution)
             $.ajax({
                 type: 'POST',
-                url: '/detail',
-                contentType: 'applicaion/JSON',
+                url: '/onePerson',
+                contentType: 'applicaion/json',
                 data: JSON.stringify({
                     menuName: menuName,
                     ingredient: ingredient,
                     onePerson: onePerson,
                     eatingNum: eatingNum,
                     institution: institution,
-                    // additionalIngredient_give: additionalIngredient,
-                    // additionalOnePerson_give: additionalOnePerson,
-                    // searchMenu: searchMenu
+
                 }),
                 success: function (response) {
-                    console.log(response)
-                    alert(response['msg'])
-                    window.location.reload()
-                }
+                    alert("식단이 저장되었습니다!", function () {
+                        location.replace("/main");
+                    });
+                },
+                error: function (error) {
+                    alert(error.responseJSON.errorMessage);
+                },
+
             })
         }
 

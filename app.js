@@ -1,8 +1,8 @@
 const express = require("express");
 const connect = require("./schemas");
 const cryptoJS = require("crypto-js");
-const Nutrient = require("./schemas/data");
-const bodyParser = require("body-parser");
+const Nutrients = require("./schemas/data");
+
 const app = express();
 const port = 3000;
 
@@ -32,7 +32,7 @@ app.get("/main", async (req, res) => {
 });
 
 app.get("/mainData", async (req, res) => {
-  const menuInfo = await Nutrient.find({});
+  const menuInfo = await Nutrients.find({});
   res.json(menuInfo);
 });
 
@@ -46,42 +46,26 @@ app.get("/onePersonShow", async (req, res) => {
   res.sendFile(path.join(__dirname + "/templates/menuOnePersonShow.html"));
 });
 
-app.post("/detail", async (req, res) => {
+app.post("/onePerson", async (req, res) => {
   const today = new Date();
   const date = today.toLocaleString();
   const { menuName, ingredient, onePerson, eatingNum, institution } = req.body;
 
-  console.log(req.body);
-  //   const postId = Post_ls[Post_ls.length - 1]["postId"];
-
-  const getId = await Nutrient.find({});
-  //   console.log(getId);
-
   var hash = cryptoJS.SHA256(date);
   const menuId = hash["words"][0];
 
-  //   const postId = getId[getId.length - 1]["postId"] + 1;
-  //   console.log(postIdCnt);
-
-  //   const postId = await Posts.find({ postId: postIdCnt });
-
-  //   if (postId.length) {
-  //     return res.status(400).json({
-  //       success: false,
-  //       errorMessage: "이미 저장된 데이터 입니다.",
-  //     });
-  //   } else {
-  const Menu_ls = await Nutrient.create({
+  const nutrient = new Nutrients({
     menuName,
     menuId,
-    institution,
     ingredient,
     onePerson,
     eatingNum,
+    institution,
     date,
   });
 
-  res.json({ msg: "저장되었습니다!" });
+  await nutrient.save();
+  res.status(201).send({});
 });
 
 //app.listen : 포트번호로 서버를 켜는 코드
