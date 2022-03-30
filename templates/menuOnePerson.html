@@ -57,6 +57,7 @@
             // show_order()
         });
 
+
         function show_order() {
             $.ajax({
                 type: 'GET',
@@ -102,16 +103,17 @@
 
 
             console.log(menuName, ingredient, onePerson, eatingNum, institution)
+
             $.ajax({
                 type: 'POST',
                 url: '/onePerson',
-                contentType: 'applicaion/json',
+                contentType: 'application/json',
                 data: JSON.stringify({
-                    menuName: menuName,
-                    ingredient: ingredient,
-                    onePerson: onePerson,
-                    eatingNum: eatingNum,
-                    institution: institution,
+                    menuName,
+                    ingredient,
+                    onePerson,
+                    eatingNum,
+                    institution,
 
                 }),
                 success: function (response) {

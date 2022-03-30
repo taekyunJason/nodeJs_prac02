@@ -13,11 +13,10 @@ const connectRouter = (req, res, next) => {
   next();
 };
 
-app.use(express.json());
-
 //app.use : 미들웨어를 사용할수 있게 해주는 코드
 app.use(connectRouter);
 
+app.use(express.json());
 //get으로 첫번째 인자로 접근했을때, 다음 함수를 실행시킴
 app.get("/", async (req, res) => {
   console.log("로그인 화면입니다");
@@ -50,6 +49,7 @@ app.post("/onePerson", async (req, res) => {
   const today = new Date();
   const date = today.toLocaleString();
   const { menuName, ingredient, onePerson, eatingNum, institution } = req.body;
+  console.log(req.body);
 
   var hash = cryptoJS.SHA256(date);
   const menuId = hash["words"][0];
@@ -66,6 +66,10 @@ app.post("/onePerson", async (req, res) => {
 
   await nutrient.save();
   res.status(201).send({});
+});
+
+app.get("/", async (req, res) => {
+  res.send("데이터가 전달되었습니다.");
 });
 
 //app.listen : 포트번호로 서버를 켜는 코드
