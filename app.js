@@ -24,6 +24,7 @@ app.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname + "/templates/login.html"));
 });
 
+//메인화면
 app.get("/main", async (req, res) => {
   console.log("메인화면입니다.");
   const path = require("path");
