@@ -24,7 +24,7 @@ app.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname + "/templates/login.html"));
 });
 
-//메인화면
+//메인 페이지
 app.get("/main", async (req, res) => {
   console.log("메인화면입니다.");
   const path = require("path");
@@ -36,11 +36,13 @@ app.get("/mainData", async (req, res) => {
   res.json(menuInfo);
 });
 
+//1인량 입력 페이지
 app.get("/onePerson", async (req, res) => {
   const path = require("path");
   res.sendFile(path.join(__dirname + "/templates/menuOnePerson.html"));
 });
 
+//1인량 보여주기 페이지
 app.get("/onePersonShow", async (req, res) => {
   const path = require("path");
   res.sendFile(path.join(__dirname + "/templates/menuOnePersonShow.html"));
