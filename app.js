@@ -23,10 +23,10 @@ const userRouter = require("./routers/user");
 const menuRouter = require("./routers/menu");
 connect();
 
-// app.get("/mainData", async (req, res) => {
-//   const menuInfo = await Nutrients.find({});
-//   res.json(menuInfo);
-// });
+app.get("/mainData", async (req, res) => {
+  const menuInfo = await Nutrients.find({});
+  res.json(menuInfo);
+});
 
 // app.post("/onePerson", async (req, res) => {
 //   const today = new Date();

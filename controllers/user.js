@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../schemas/user");
@@ -46,7 +47,7 @@ const signUp = async (req, res) => {
   const hashed = bcrypt.hashSync(userPw, 10);
   const user = new User({
     userId,
-    userPw: hashed,
+    userPw,
     userName,
     userNick,
     userEmail,
