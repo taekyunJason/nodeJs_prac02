@@ -2,9 +2,10 @@
   "dependencies": {
     "body-parser": "^1.19.2",
     "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.1",
     "express": "^4.17.3",
     "mongoose": "^6.2.8",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.16"
   },
   "name": "nodejs_prac02",
   "description": "",

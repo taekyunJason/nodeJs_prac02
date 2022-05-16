@@ -59,6 +59,9 @@
             // window.location.href = "/main"
         }
     }
+    function signUp() {
+        window.location.href = "/main?user=" + userName;
+    }
 </script>
 
 <body>
@@ -70,11 +73,14 @@
                 width="70%" />
         </div>
         <div class="input_info">
-            <h5>이름를 입력해주세요</h5>
-            <p>이름 : <input id="userName" type="text" /></p>
-            <!--        <p>PW : <input type="text"/></p>-->
+            <p>아이디 : <input id="userName" type="text" placeholder="Please Enter your ID" style="width: 300px" /></p>
+            <p>비밀번호 : <input id="userPw" type="text" placeholder="Please Enter your Password" style="width: 300px" />
+            </p>
         </div>
         <button onclick="saveName()" type="button" class="btn btn-outline-success">시작하기</button>
+        <p></p>
+        <button onclick="signUp()" type="button" class="btn btn-outline-success">회원가입하기</button>
+
     </div>
 </body>
 
