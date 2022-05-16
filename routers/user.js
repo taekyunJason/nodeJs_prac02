@@ -1,15 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const { signUp, login, loginCheck, logOut } = require("../controllers/user");
-const authMiddleware = require("../middleware/authMiddleWare");
+const authMiddleware = require("../middlewares/authMiddleWare");
 require("dotenv").config();
 
-router.post("/signUp", signUp);
+router.post("/user/signUp", signUp);
 
-router.post("/reqLogin", login);
+router.post("/user/reqLogin", login);
 
-router.get("/loginCheck", authMiddleware, loginCheck);
+router.get("/user/loginCheck", authMiddleware, loginCheck);
 
-router.get("/login/logOut", logOut);
+router.get("/user/login/logOut", logOut);
 
 module.exports = router;

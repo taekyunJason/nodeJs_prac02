@@ -1,16 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const connect = require("./schemas");
-const cryptoJS = require("crypto-js");
+const cors = require("cors");
 const Nutrients = require("./schemas/menu");
 const app = express();
 const port = 3000;
-
-//라우터
-const userRouter = require("./routers/user");
-const menuRouter = require("./routers/menu");
-
-connect();
 
 //접속로그 확인
 const requestMiddleWare = (req, res, next) => {
@@ -24,14 +18,56 @@ app.use(express.json());
 app.use(requestMiddleWare);
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.json());
-//get으로 첫번째 인자로 접근했을때, 다음 함수를 실행시킴
-app.use("/", [userRouter, menuRouter]);
+//라우터
+const userRouter = require("./routers/user");
+const menuRouter = require("./routers/menu");
+connect();
 
+// app.get("/mainData", async (req, res) => {
+//   const menuInfo = await Nutrients.find({});
+//   res.json(menuInfo);
+// });
+
+// app.post("/onePerson", async (req, res) => {
+//   const today = new Date();
+//   const date = today.toLocaleString();
+//   const { menuName, ingredient, onePerson, eatingNum, institution } = req.body;
+//   console.log(req.body);
+
+//   var hash = cryptoJS.SHA256(date);
+//   const menuId = hash["words"][0];
+
+//   const nutrient = new Nutrients({
+//     menuName,
+//     menuId,
+//     ingredient,
+//     onePerson,
+//     eatingNum,
+//     institution,
+//     date,
+//   });
+
+//   await nutrient.save();
+//   res.status(201).send({});
+// });
+
+// app.get("/", async (req, res) => {
+//   res.send("데이터가 전달되었습니다.");
+// });
+
+//페이지 이동
+//로그인 페이지
 app.get("/", async (req, res) => {
   console.log("로그인 화면입니다");
   const path = require("path");
   res.sendFile(path.join(__dirname + "/templates/login.html"));
+});
+
+//회원가입 페이지
+app.get("/signUp", async (req, res) => {
+  console.log("회원가입 화면입니다");
+  const path = require("path");
+  res.sendFile(path.join(__dirname + "/templates/signUp.html"));
 });
 
 //메인 페이지
@@ -39,11 +75,6 @@ app.get("/main", async (req, res) => {
   console.log("메인화면입니다.");
   const path = require("path");
   res.sendFile(path.join(__dirname + "/templates/main.html"));
-});
-
-app.get("/mainData", async (req, res) => {
-  const menuInfo = await Nutrients.find({});
-  res.json(menuInfo);
 });
 
 //1인량 입력 페이지
@@ -58,32 +89,8 @@ app.get("/onePersonShow", async (req, res) => {
   res.sendFile(path.join(__dirname + "/templates/menuOnePersonShow.html"));
 });
 
-app.post("/onePerson", async (req, res) => {
-  const today = new Date();
-  const date = today.toLocaleString();
-  const { menuName, ingredient, onePerson, eatingNum, institution } = req.body;
-  console.log(req.body);
-
-  var hash = cryptoJS.SHA256(date);
-  const menuId = hash["words"][0];
-
-  const nutrient = new Nutrients({
-    menuName,
-    menuId,
-    ingredient,
-    onePerson,
-    eatingNum,
-    institution,
-    date,
-  });
-
-  await nutrient.save();
-  res.status(201).send({});
-});
-
-app.get("/", async (req, res) => {
-  res.send("데이터가 전달되었습니다.");
-});
+//라우터 연결
+app.use("/api", [userRouter, menuRouter]);
 
 //app.listen : 포트번호로 서버를 켜는 코드
 app.listen(port, () => {
