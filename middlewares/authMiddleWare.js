@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
   }
   try {
     const { userId } = jwt.verify(authToken, process.env.KEY);
-    User.findByPk(userId).then((user) => {
+    User.find({ userId }).then((user) => {
       res.locals.user = user;
       next();
     });

@@ -4,17 +4,29 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userNick: {
+    type: String,
+    required: true,
+  },
+  userName: {
+    type: String,
+    required: true,
+  },
   userPw: {
     type: String,
     required: true,
   },
-  userNick: {
+  userEmail: {
     type: String,
     required: true,
   },
   userInstitution: {
     type: String,
     required: true,
+  },
+  route: {
+    type: String,
+    required: false,
   },
 });
 

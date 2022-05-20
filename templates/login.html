@@ -51,13 +51,26 @@
 </style>
 <script>
     function saveName() {
-        let userName = $('#userName').val()
-        if (userName === '') {
-            alert('이름을 입력해주세요 🙂')
-        } else {
-            window.location.href = "/main?user=" + userName;
-            // window.location.href = "/main"
+        let userId = $('#userId').val()
+        let userPw = $('#userPw').val()
+
+        if (!userId || !userPw) {
+            alert("값을 입력해주세요!")
         }
+        $.ajax({
+            type: 'POST',
+            url: '/api/user/reqLogin',
+            data: {
+                userId, userPw
+            },
+            success: function (response) {
+                alert("환영합니다!");
+                window.location.replace("/main");
+            },
+            error: function (error) {
+                alert(error.responseJSON.errorMessage);
+            },
+        });
     }
     function signUp() {
         window.location.href = "/signUp";
@@ -73,8 +86,9 @@
                 width="70%" />
         </div>
         <div class="input_info">
-            <p>아이디 : <input id="userName" type="text" placeholder="Please Enter your ID" style="width: 300px" /></p>
-            <p>비밀번호 : <input id="userPw" type="text" placeholder="Please Enter your Password" style="width: 300px" />
+            <p>아이디 : <input id="userId" type="text" placeholder="Please Enter your ID" style="width: 300px" /></p>
+            <p>비밀번호 : <input id="userPw" type="password" placeholder="Please Enter your Password"
+                    style="width: 300px" />
             </p>
         </div>
         <button onclick="saveName()" type="button" class="btn btn-outline-success">시작하기</button>

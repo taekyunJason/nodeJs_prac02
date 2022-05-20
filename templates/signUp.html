@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 화면 샘플 - Bootstrap</title> <!-- Bootstrap CSS -->
+    <title>영양소 회원가입</title> <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -39,27 +39,31 @@
     function signUp() {
         let userId = $('#userId').val();
         let userNick = $('#userNick').val();
+        let userName = $('#userName').val();
         let userPw = $('#userPw').val();
+        let userPwCheck = $('#userPwCheck').val();
         let userEmail = $('#userEmail').val();
         let userInstitution = $('#institution').val();
-        console.log("userPw : ", userPw);
+
+        if (!userId || !userNick || !userName || !userPw || !userPwCheck || !userEmail || !userInstitution) {
+            alert("값을 입력해주세요!")
+        }
+        console.log("userInputData : ", userId, userNick, userName, userPw, pwdCheck, userEmail, userInstitution);
 
         $.ajax({
             type: 'POST',
             url: '/api/user/signUp',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                userId, userNick, userPw, userEmail, userInstitution
-            }),
+            data: {
+                userId, userNick, userName, userPw, pwdCheck, userEmail, userInstitution
+            },
             success: function (response) {
-                alert("회원가입이 완료되었습니다.", function () {
-                    // location.replace("/");
-                });
+                alert("회원가입을 축하드립니다!");
+                window.location.replace("/");
             },
             error: function (error) {
                 alert(error.responseJSON.errorMessage);
-            }
-        })
+            },
+        });
     }
 </script>
 
@@ -88,7 +92,7 @@
                         <div class=" invalid-feedback"> 비밀번호를 입력해주세요. </div>
                     </div>
                     <div class="mb-3"> <label for="passwordCheck">비밀번호 확인</label> <input type="password"
-                            class="form-control" id="passwordCheck" required>
+                            class="form-control" id="userPwCheck" required>
                         <div class="invalid-feedback"> 비밀번호를 한 번 더 입력해주세요. </div>
                     </div>
                     <div class="mb-3"> <label for="email">이메일</label> <input type="email" class="form-control"
@@ -112,8 +116,10 @@
                                 <option value="고등학교">고등학교</option>
                                 <option value="어린이집">어린이집</option>
                                 <option value="요양병원">요양병원</option>
+                                <option value="복지관">복지관</option>
+                                <option value="기타">기타</option>
                             </select>
-                            <div class="invalid-feedback"> 가입 경로를 선택해주세요. </div>
+
                         </div>
                         <!-- <div class="col-md-4 mb-3"> <label for="code">추천인 코드</label> <input type="text"
                                 class="form-control" id="code" placeholder="" required>
@@ -125,8 +131,7 @@
                             id="aggrement" required> <label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에
                             동의합니다.</label> </div>
                     <div class="mb-4"></div> <button onclick="signUp()" class="btn btn-primary btn-lg btn-block"
-                        type="submit">가입
-                        완료</button>
+                        type="submit">가입 완료</button>
                 </form>
             </div>
         </div>
