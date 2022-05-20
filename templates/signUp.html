@@ -53,9 +53,10 @@
         $.ajax({
             type: 'POST',
             url: '/api/user/signUp',
-            data: {
+            contentType: 'application/json',
+            data: JSON.stringify({
                 userId, userNick, userName, userPw, pwdCheck, userEmail, userInstitution
-            },
+            }),
             success: function (response) {
                 alert("회원가입을 축하드립니다!");
                 window.location.replace("/");
