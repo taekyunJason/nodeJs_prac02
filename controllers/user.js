@@ -35,7 +35,7 @@ const signUp = async (req, res) => {
   }
 
   //아이디 닉네임 중복확인
-  const existUser = await User.find({
+  const existUser = await User.findOne({
     $or: [{ userId, userNick }],
   });
   if (existUser) {
@@ -57,6 +57,7 @@ const signUp = async (req, res) => {
     route,
   });
   await user.save();
+
   res.status(201).send({
     result: "true",
     msg: "회원가입에 성공했습니다.",
