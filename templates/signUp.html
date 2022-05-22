@@ -59,10 +59,8 @@
                 userId: userId, userNick: userNick, userName: userName, userPw: userPw, userPwCheck: userPwCheck, userEmail: userEmail, userInstitution: userInstitution
             }),
             success: function (response) {
-                customAlert("회원가입을 축하드립니다!",
-                    function () {
-                        window.location.replace("/");
-                    });
+                alert("회원가입을 축하드립니다!");
+                window.location.replace('/');
             },
             error: function (error) {
                 alert(error.responseJSON.errorMessage);
@@ -72,7 +70,7 @@
 </script>
 
 <body>
-    <div class="container">
+    <div>
         <div class="input-form-backgroud row">
             <div class="input-form col-md-12 mx-auto">
                 <h4 class="mb-3">회원가입</h4>
@@ -125,17 +123,14 @@
                             </select>
 
                         </div>
-                        <!-- <div class="col-md-4 mb-3"> <label for="code">추천인 코드</label> <input type="text"
-                                class="form-control" id="code" placeholder="" required>
-                            <div class="invalid-feedback"> 추천인 코드를 입력해주세요. </div>
-                        </div> -->
+
                     </div>
-                    <hr class="mb-4">
+
                     <div class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input"
                             id="aggrement" required> <label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에
                             동의합니다.</label> </div>
-                    <div class="mb-4"></div> <button onclick="signUp()" class="btn btn-primary btn-lg btn-block"
-                        type="submit">가입 완료</button>
+                    <div class="mb-4"></div> <button onclick="signUp()" class="btn btn-primary btn-lg btn-block">가입
+                        완료</button>
                 </form>
             </div>
         </div>

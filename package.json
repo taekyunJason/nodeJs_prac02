@@ -7,15 +7,14 @@
     "dotenv": "^16.0.1",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.8",
-    "nodemon": "^2.0.16"
+    "mongoose": "^6.2.8"
   },
   "name": "nodejs_prac02",
   "description": "",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "devStart": "nodemon app.js",
     "start": "nodemon server/basic-server.js"
   },
   "repository": {
@@ -28,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/taekyunJason/nodeJs_prac02/issues"
   },
-  "homepage": "https://github.com/taekyunJason/nodeJs_prac02#readme"
+  "homepage": "https://github.com/taekyunJason/nodeJs_prac02#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
 }
