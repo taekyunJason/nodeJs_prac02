@@ -181,7 +181,7 @@
                         console.log(menuName)
                         let searchMenu = document.getElementById("searchMenu").value
                         console.log(searchMenu)
-                        let icon = ['🥦', '🍲', '🥕', '🥔', '🍞', '🍇', '🍎', '🍳']
+                        let icon = ['🥦', '🍲', '🥕', '🥔', '🍞', '🍇', '🍎', '🍳', '🍖', '🧄']
 
                         let temp_html = ``
                         if (menuName === 'undefined') {
@@ -193,7 +193,7 @@
                                 } else {
                                     temp_html = `<div class="searchedMenu" id="searchedMenuButton">
                                                 <ul>
-                                                    <button onclick="moveDetailPage()" type="button" class="btn btn-outline-*">${icon[Math.floor(Math.random() * 8)]} ${menuName}</button>
+                                                    <button onclick="moveDetailPage()" type="button" class="btn btn-outline-*">${icon[Math.floor(Math.random() * 10)]} ${menuName}</button>
                                                 </ul>
                                             </div>`
                                     $('#result_list').append(temp_html)
@@ -206,58 +206,8 @@
                     alert(error.responseJSON.errorMessage);
                 },
             })
-            //menu_show();
         }
     }
-
-    function menu_show() {
-        $('#result_list').empty()
-        $.ajax({
-            type: 'GET',
-            url: 'api/main/search' + '?' + $.param({ "keyword": searchMenu }),
-            data: {},
-            success: function (response) {
-                console.log(response)
-                let rows = response['menus']
-
-                for (let i = 0; i < rows.length; i++) {
-                    let menuName = rows[i]['menuName']
-                    console.log(menuName)
-                    let searchMenu = document.getElementById("searchMenu").value
-                    console.log(searchMenu)
-                    let icon = ['🥦', '🍲', '🥕', '🥔', '🍞', '🍇', '🍎', '🍳']
-
-                    let temp_html = ``
-                    if (menuName === 'undefined') {
-                        return;
-                    } else {
-                        if (menuName.includes(document.getElementById("searchMenu").value) === true) {
-                            if (searchMenu === '' || searchMenu === null) {
-                                alert('검색할 메뉴를 입력해주세요 🙂')
-                            } else {
-                                temp_html = `<div class="searchedMenu" id="searchedMenuButton">
-                                                <ul>
-                                                    <button onclick="moveDetailPage()" type="button" class="btn btn-outline-*">${icon[Math.floor(Math.random() * 8)]} ${menuName}</button>
-                                                </ul>
-                                            </div>`
-                                $('#result_list').append(temp_html)
-                            }
-                        }
-                    }
-                    // location.href = "menu_onePersonShow?" + menuName;
-                }
-            }
-        })
-    }
-
-    // let getLink = window.location.search;
-    // let getUserName = getLink.split('=')
-    // let getOnlyName = getUserName[1];
-    // console.log(getOnlyName)
-    // let decodeName = decodeURI(getOnlyName)
-    // console.log(decodeName)
-
-
 
     function moveCreatePage() {
         window.location.href = "/onePerson";
