@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //라우터
 const userRouter = require("./routers/user");
-const menuRouter = require("./routers/menu");
+const menuRouter = require("./routers/uploadMenu");
 const mainPageRouter = require("./routers/main");
 connect();
 

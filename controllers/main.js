@@ -10,18 +10,23 @@ const search = async (req, res) => {
   }
 
   //검색어 입력시 타이틀에서 해당 검색어로 검색
-  const searchChallenge = await Menu.find({
+  const searchMenu = await Menu.find({
     menuName: { $regex: keyword },
   });
 
+  console.log(searchMenu);
+
   //검색어와 일치하는 메뉴 없는 경우 예외처리
-  if (searchChallenge.length === 0) {
+  if (searchMenu.length === 0) {
     return res
       .status(401)
-      .json({ message: "검색과 일치하는 메뉴가 없습니다." });
+      .json({
+        errorMessage:
+          "검색어를 포함하는 메뉴가 없습니다 🥲\n 다시 검색해주세요 🤓",
+      });
   }
   //   console.log("searchChallenge: ", searchChallenge);
-  return res.status(201).json(searchChallenge);
+  return res.status(201).json(searchMenu);
 };
 
 module.exports = { search };

@@ -163,13 +163,13 @@
             $('#result_list').empty()
             $.ajax({
                 type: 'GET',
-                url: 'api/main/search' + '?' + $.param({ "keyword": searchMenu }),
+                url: '/api/main/search' + '?' + $.param({ "keyword": searchMenu }),
                 data: {},
                 success: function (response) {
                     console.log(response)
                     let result_html = `<div class="searchedMenu" id="searchedMenuText">
                                             <ul>
-                                                <h3>${searchMenu}와/과 관련된 메뉴에요 🙂</h3>
+                                                <h3>${searchMenu} 이/가 포함된 메뉴에요 🙂</h3>
                                             </ul>
                                         </div>`
                     $('#searchedMenuTitle').empty()

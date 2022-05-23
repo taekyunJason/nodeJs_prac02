@@ -15,7 +15,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 
-    <title>메뉴별 필요수량</title>
+    <title>메뉴 등록하기!</title>
 
     <style>
         * {
@@ -106,7 +106,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/onePerson',
+                url: '/api/main/menu/upload',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     menuName,
