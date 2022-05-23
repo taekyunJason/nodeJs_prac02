@@ -126,8 +126,6 @@
 </style>
 
 <script>
-    console.log(localStorage.getItem("token"));
-
     $(document).ready(function () {
         if (localStorage.getItem("token").length) {
             get_userNick();
@@ -155,7 +153,7 @@
 
     function menu_search() {
         let searchMenu = $('#searchMenu').val()
-        console.log(searchMenu);
+        // console.log(searchMenu);
 
         if (searchMenu === '' || searchMenu === null) {
             alert('검색할 메뉴를 입력해주세요 🙂')
