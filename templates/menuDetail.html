@@ -53,18 +53,30 @@
     </style>
     <script>
         $(document).ready(function () {
-            // show_order()
-            getMenuName()
+            if (localStorage.getItem("token").length) {
+                getMenuDetail();
+            }
         });
 
-        let getLink = location.href.split("?");
-        let clickedMenuName = getLink[1]
-        let decodeMenuName = decodeURI(clickedMenuName)
-        console.log(decodeMenuName)
+        function getMenuDetail() {
+            $.ajax({
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                type: "GET",
+                url: "/api/main/menuDetail",
+                data: {},
+                success: function (response) {
+                    console.log(response);
+                    let temp_html = `<h1>[${decodeMenuName}]</h1>`
+                    $('#putMenuName').append(temp_html)
+                },
+                error: function (error) {
+                    alert(error.responseJSON.errorMessage);
+                },
+            });
 
-        function getMenuName() {
-            let temp_html = `<h1>[${decodeMenuName}]</h1>`
-            $('#putMenuName').append(temp_html)
+
         }
 
         function show_order() {

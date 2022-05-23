@@ -11,6 +11,7 @@ const search = async (req, res) => {
 
   //검색어 입력시 타이틀에서 해당 검색어로 검색
   const searchMenu = await Menu.find({
+    //특정 단어가 포함된 데이터 검색
     menuName: { $regex: keyword },
   });
 
