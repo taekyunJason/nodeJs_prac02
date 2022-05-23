@@ -76,14 +76,25 @@ const login = async (req, res) => {
   }
   const userName = user.userName;
   const userNick = user.userNick;
-  const token = jwt.sign({ userId: user.userId }, process.env.KEY);
+  const tokenOptions = { expiresIn: "1d", issuer: "nutrient" };
 
-  res.send({ token, userId, userName, userNick });
+  const token = jwt.sign(
+    { userId: user.userId },
+    process.env.KEY,
+    tokenOptions
+  );
+
+  res.json({
+    token,
+    userId,
+    userNick,
+    msg: "로그인에 성공했습니다.",
+  });
 };
 
 const loginCheck = (req, res) => {
   const { user } = res.locals;
-  res.send({ user });
+  res.send(user);
 };
 
 const logOut = (req, res) => {

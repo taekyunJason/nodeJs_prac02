@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 //라우터
 const userRouter = require("./routers/user");
 const menuRouter = require("./routers/menu");
+const mainPageRouter = require("./routers/main");
 connect();
 
 app.get("/mainData", async (req, res) => {
@@ -90,7 +91,7 @@ app.get("/onePersonShow", async (req, res) => {
 });
 
 //라우터 연결
-app.use("/api", [userRouter, menuRouter]);
+app.use("/api", [userRouter, menuRouter, mainPageRouter]);
 
 //app.listen : 포트번호로 서버를 켜는 코드
 app.listen(port, () => {

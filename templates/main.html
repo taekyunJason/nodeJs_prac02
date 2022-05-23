@@ -126,20 +126,45 @@
 </style>
 
 <script>
+    console.log(localStorage.getItem("token"));
+
     $(document).ready(function () {
-        get_userName();
+        if (localStorage.getItem("token").length) {
+            get_userNick();
+        }
     });
+
+    function get_userNick() {
+        $.ajax({
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            type: "GET",
+            url: "/api/user/loginCheck",
+            data: {},
+            success: function (response) {
+                console.log(response);
+                let temp_html = `<h2 style="margin-top: 20px">안녕하세요<p>${response[0].userNick}님!</h2>`
+                $('#putNickname').append(temp_html)
+            },
+            error: function (error) {
+                alert(error.responseJSON.errorMessage);
+            },
+        });
+    }
 
     function menu_search() {
         let searchMenu = $('#searchMenu').val()
+        console.log(searchMenu);
 
         if (searchMenu === '' || searchMenu === null) {
             alert('검색할 메뉴를 입력해주세요 🙂')
         } else {
+            $('#result_list').empty()
             $.ajax({
-                type: 'POST',
-                url: '/menus',
-                data: { searchMenu_give: searchMenu },
+                type: 'GET',
+                url: 'api/main/search' + '?' + $.param({ "keyword": searchMenu }),
+                data: {},
                 success: function (response) {
                     console.log(response)
                     let result_html = `<div class="searchedMenu" id="searchedMenuText">
@@ -149,9 +174,39 @@
                                         </div>`
                     $('#searchedMenuTitle').empty()
                     $('#searchedMenuTitle').append(result_html)
-                }
+
+                    let rows = response;
+                    for (let i = 0; i < rows.length; i++) {
+                        let menuName = rows[i]['menuName']
+                        console.log(menuName)
+                        let searchMenu = document.getElementById("searchMenu").value
+                        console.log(searchMenu)
+                        let icon = ['🥦', '🍲', '🥕', '🥔', '🍞', '🍇', '🍎', '🍳']
+
+                        let temp_html = ``
+                        if (menuName === 'undefined') {
+                            return;
+                        } else {
+                            if (menuName.includes(document.getElementById("searchMenu").value) === true) {
+                                if (searchMenu === '' || searchMenu === null) {
+                                    alert('검색할 메뉴를 입력해주세요 🙂')
+                                } else {
+                                    temp_html = `<div class="searchedMenu" id="searchedMenuButton">
+                                                <ul>
+                                                    <button onclick="moveDetailPage()" type="button" class="btn btn-outline-*">${icon[Math.floor(Math.random() * 8)]} ${menuName}</button>
+                                                </ul>
+                                            </div>`
+                                    $('#result_list').append(temp_html)
+                                }
+                            }
+                        }
+                    }
+                },
+                error: function (error) {
+                    alert(error.responseJSON.errorMessage);
+                },
             })
-            menu_show();
+            //menu_show();
         }
     }
 
@@ -159,7 +214,7 @@
         $('#result_list').empty()
         $.ajax({
             type: 'GET',
-            url: '/mainData',
+            url: 'api/main/search' + '?' + $.param({ "keyword": searchMenu }),
             data: {},
             success: function (response) {
                 console.log(response)
@@ -195,17 +250,14 @@
         })
     }
 
-    let getLink = window.location.search;
-    let getUserName = getLink.split('=')
-    let getOnlyName = getUserName[1];
-    console.log(getOnlyName)
-    let decodeName = decodeURI(getOnlyName)
-    console.log(decodeName)
+    // let getLink = window.location.search;
+    // let getUserName = getLink.split('=')
+    // let getOnlyName = getUserName[1];
+    // console.log(getOnlyName)
+    // let decodeName = decodeURI(getOnlyName)
+    // console.log(decodeName)
 
-    function get_userName() {
-        let temp_html = `<h2 style="margin-top: 20px">안녕하세요<p>${decodeName}님!</h2>`
-        $('#putName').append(temp_html)
-    }
+
 
     function moveCreatePage() {
         window.location.href = "/onePerson";
@@ -239,8 +291,9 @@
     <div class="wrap">
 
         <nav class="headerTitle">
-            <div class="container-fluid" style="flex-direction: column;">
-                <a class="navbar-brand" href="/main?user=" + decodeName>영양사를 위한 식단 저장소<p> 👉 '영양소'</a>
+            <div class="container-fluid"
+                style="flex-direction: column; width: 200px; display: inline-block; justify-content: center;">
+                <a class="navbar-brand" href="/main">영양사를 위한 식단 저장소<p> 👉 '영양소'</a>
                 <button onclick="moveCreatePage()" type="button" class="btn btn-outline-success">메뉴 등록하러 가기
                     💁‍♂️</button>
             </div>
@@ -249,7 +302,7 @@
             <a href="/main">영양사를 위한 식단 저장소<p> 👉 '영양소'</a>
             <button onclick="moveCreatePage()" type="button" class="btn btn-outline-success">메뉴 등록하러 가기 💁‍♂️</button>
         </div> -->
-        <h2 id="putName"></h2>
+        <h2 id="putNickname"></h2>
     </div>
     <div class="mycards" id="comment-list">
         <div class="input-group mb-3">
