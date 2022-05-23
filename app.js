@@ -78,16 +78,16 @@ app.get("/main", async (req, res) => {
   res.sendFile(path.join(__dirname + "/templates/main.html"));
 });
 
-//1인량 입력 페이지
-app.get("/onePerson", async (req, res) => {
+//메뉴추가 페이지
+app.get("/menuUpload", async (req, res) => {
   const path = require("path");
-  res.sendFile(path.join(__dirname + "/templates/menuOnePerson.html"));
+  res.sendFile(path.join(__dirname + "/templates/menuUpload.html"));
 });
 
-//1인량 보여주기 페이지
-app.get("/onePersonShow", async (req, res) => {
+//메뉴상세 페이지
+app.get("/menuDetail", async (req, res) => {
   const path = require("path");
-  res.sendFile(path.join(__dirname + "/templates/menuOnePersonShow.html"));
+  res.sendFile(path.join(__dirname + "/templates/menuDetail.html"));
 });
 
 //라우터 연결
