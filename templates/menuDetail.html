@@ -54,26 +54,27 @@
     </style>
     <script>
         $(document).ready(function () {
-            if (localStorage.getItem("token").length) {
+            console.log(localStorage.getItem("token"))
+            if (localStorage.getItem("token")) {
                 getMenuDetail();
             }
         });
 
         function getMenuDetail() {
             let menuId = new URLSearchParams(location.search).get('menuId')
-            console.log(menuId);
+            console.log("menuId : ", menuId);
 
             $.ajax({
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
                 type: "GET",
-                url: '/api/menuDetail' + '?' + $.param({ "menuId": menuId }),
+                url: `/api/menuDetail?menuId=${menuId}`,
                 data: {},
                 success: function (response) {
                     console.log(response);
                     let rows = response;
-                    let menuName = rows.menuName;
+                    let menuName = rows[0].menuName;
                     let temp_html = `<h1>[${menuName}]</h1>`
                     $('#putMenuName').append(temp_html)
                 },

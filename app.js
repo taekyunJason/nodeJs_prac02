@@ -4,7 +4,7 @@ const connect = require("./schemas");
 const cors = require("cors");
 const Nutrients = require("./schemas/menu");
 const app = express();
-const port = 3000;
+const port = 3001;
 
 //접속로그 확인
 const requestMiddleWare = (req, res, next) => {
@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 const userRouter = require("./routers/user");
 const menuRouter = require("./routers/uploadMenu");
 const mainPageRouter = require("./routers/main");
+const menuDetailRouter = require("./routers/menuDetail");
 connect();
 
 // app.get("/mainData", async (req, res) => {
@@ -85,13 +86,13 @@ app.get("/menuUpload", async (req, res) => {
 });
 
 //메뉴상세 페이지
-app.get("/api/menuDetail", async (req, res) => {
+app.get("/show/menuDetail", async (req, res) => {
   const path = require("path");
   res.sendFile(path.join(__dirname + "/templates/menuDetail.html"));
 });
 
 //라우터 연결
-app.use("/api", [userRouter, menuRouter, mainPageRouter]);
+app.use("/api", [userRouter, menuRouter, mainPageRouter, menuDetailRouter]);
 
 //app.listen : 포트번호로 서버를 켜는 코드
 app.listen(port, () => {

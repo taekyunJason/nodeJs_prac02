@@ -127,7 +127,7 @@
 
 <script>
     $(document).ready(function () {
-        if (localStorage.getItem("token").length) {
+        if (localStorage.getItem("token")) {
             get_userNick();
         }
     });
@@ -213,7 +213,7 @@
 
     function moveDetailPage(menuId) {
         console.log(menuId);
-        window.location.href = '/api/menuDetail' + '?' + $.param({ "menuId": menuId });
+        window.location.href = '/show/menuDetail' + '?' + $.param({ "menuId": menuId });
     }
     //     $.ajax({
     //         type: "GET",
