@@ -85,7 +85,7 @@ app.get("/menuUpload", async (req, res) => {
 });
 
 //메뉴상세 페이지
-app.get("/menuDetail", async (req, res) => {
+app.get("/api/menuDetail", async (req, res) => {
   const path = require("path");
   res.sendFile(path.join(__dirname + "/templates/menuDetail.html"));
 });

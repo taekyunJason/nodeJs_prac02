@@ -176,9 +176,9 @@
                     let rows = response;
                     for (let i = 0; i < rows.length; i++) {
                         let menuName = rows[i]['menuName']
-                        console.log(menuName)
+                        let menuId = rows[i]['menuId']
+                        console.log("menuId: ", menuId)
                         let searchMenu = document.getElementById("searchMenu").value
-                        console.log(searchMenu)
                         let icon = ['🥦', '🍲', '🥕', '🥔', '🍞', '🍇', '🍎', '🍳', '🍖', '🧄']
 
                         let temp_html = ``
@@ -191,7 +191,7 @@
                                 } else {
                                     temp_html = `<div class="searchedMenu" id="searchedMenuButton">
                                                 <ul>
-                                                    <button onclick="moveDetailPage()" type="button" class="btn btn-outline-*">${icon[Math.floor(Math.random() * 10)]} ${menuName}</button>
+                                                    <button onclick=moveDetailPage('${menuId}') type="button" class="btn btn-outline-*">${icon[Math.floor(Math.random() * 10)]} ${menuName}</button>
                                                 </ul>
                                             </div>`
                                     $('#result_list').append(temp_html)
@@ -211,28 +211,30 @@
         window.location.href = "/menuUpload";
     }
 
-    function moveDetailPage() {
-        window.location.href = "/menuDetail";
-        $.ajax({
-            type: "GET",
-            url: "/menus",
-            data: {},
-            success: function (response) {
-                console.log(response)
-                let rows = response['menus']
-
-                for (let i = 0; i < rows.length; i++) {
-                    let menuName = rows[i]['menuName']
-                    console.log(menuName)
-                    if (menuName === undefined) {
-                        return;
-                    } else {
-                        window.location.href = "menu_onePersonShow?" + menuName;
-                    }
-                }
-            }
-        });
+    function moveDetailPage(menuId) {
+        console.log(menuId);
+        window.location.href = '/api/menuDetail' + '?' + $.param({ "menuId": menuId });
     }
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "/menus",
+    //         data: {},
+    //         success: function (response) {
+    //             console.log(response)
+    //             let rows = response['menus']
+
+    //             for (let i = 0; i < rows.length; i++) {
+    //                 let menuName = rows[i]['menuName']
+    //                 console.log(menuName)
+    //                 if (menuName === undefined) {
+    //                     return;
+    //                 } else {
+    //                     window.location.href = "menu_onePersonShow?" + menuName;
+    //                 }
+    //             }
+    //         }
+    //     });
+    // }
 
 </script>
 

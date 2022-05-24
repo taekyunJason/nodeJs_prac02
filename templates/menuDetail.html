@@ -13,6 +13,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
+    <title>메뉴 상세보기</title>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 
     <title>메뉴별 필요수량</title>
@@ -59,21 +60,26 @@
         });
 
         function getMenuDetail() {
+            let menuId = new URLSearchParams(location.search).get('menuId')
+            console.log(menuId);
+
             $.ajax({
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
                 type: "GET",
-                url: "/api/main/menuDetail",
+                url: '/api/menuDetail' + '?' + $.param({ "menuId": menuId }),
                 data: {},
                 success: function (response) {
                     console.log(response);
-                    let temp_html = `<h1>[${decodeMenuName}]</h1>`
+                    let rows = response;
+                    let menuName = rows.menuName;
+                    let temp_html = `<h1>[${menuName}]</h1>`
                     $('#putMenuName').append(temp_html)
                 },
-                error: function (error) {
-                    alert(error.responseJSON.errorMessage);
-                },
+                // error: function (error) {
+                //     alert(error.responseJSON.errorMessage);
+                // },
             });
 
 
