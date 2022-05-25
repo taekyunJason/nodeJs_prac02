@@ -43,6 +43,16 @@
             width: 100%;
         }
 
+        .mypost {
+            width: 95%;
+            max-width: 500px;
+            margin: 20px auto 0px auto;
+            padding: 20px;
+            box-shadow: 0px 0px 3px 0px gray;
+
+            display: none;
+        }
+
         .order>table {
             margin: 40px 0;
             font-size: 18px;
@@ -139,7 +149,18 @@
         //     });
         // }
 
+        function open_box() {
+            $('#post-box').show()
+        }
+
+        function close_box() {
+            $('#post-box').hide()
+        }
+
         function save_order() {
+            let menuId = new URLSearchParams(location.search).get('menuId')
+            console.log("menuId : ", menuId);
+
             let menuName = $('#menuName').val()
             let ingredient = $('#ingredient').val()
             let onePerson = $('#onePerson').val()
@@ -148,20 +169,22 @@
             let additionalIngredient = $('#additionalIngredient').val()
             let additionalOnePerson = $('#additionalOnePerson').val()
 
+            console.log("name: ", menuName, "ingredient: ", ingredient, "one: ", onePerson, "eating: ", eatingNum, "institution: ", institution)
+
             $.ajax({
-                type: 'POST',
-                url: '/menus',
+                type: 'PATCH',
+                url: `/api/menuDetail?menuId=${menuId}`,
                 data: {
-                    menuName_give: menuName,
-                    ingredient_give: ingredient,
-                    onePerson_give: onePerson,
-                    eatingNum_give: eatingNum,
-                    institution_give: institution,
-                    additionalIngredient_give: additionalIngredient,
-                    additionalOnePerson_give: additionalOnePerson,
+                    menuName: menuName,
+                    ingredient: ingredient,
+                    onePerson: onePerson,
+                    eatingNum: eatingNum,
+                    institution: institution,
+                    additionalIngredient: additionalIngredient,
+                    additionalOnePerson: additionalOnePerson,
                 },
                 success: function (response) {
-                    alert(response['msg'])
+                    alert("메뉴가 수정되었습니다.")
                     window.location.reload()
                 }
             })
@@ -184,18 +207,59 @@
     <div class="order">
         <h1 id="putMenuName"></h1>
         <p>
-            입력 한 번으로 복잡한 메뉴 구성을 끝낼 수 있다고?<br />
-            마우스 클릭 한번으로 쉽게 구성하는 식단표!
-        </p>
-        <div class="order-info" id="menuInputBox">
+            검색한 메뉴 정보를 아래에서 확인하세요! 😃<br />
+            변경할 사항은 "수정하기" 버튼으로 수정해보세요 :)
+        </p><br />
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-success" type="button" onclick="open_box()">👩🏻‍🍳 메뉴 수정하기 ⬇️ 👨🏻‍🍳</button>
+        </div>
+        <br />
+        <div class="mypost" id="post-box">
             <div class="input-group mb-3">
                 <span class="input-group-text">메뉴 이름</span>
                 <input id="menuName" type="text" class="form-control">
             </div>
-            <!--        <div class="input-group mb-3">-->
-            <!--            <span class="input-group-text">1인량 (g)</span>-->
-            <!--            <input id="onePerson" type="text" class="form-control">-->
-            <!--        </div>-->
+
+            <div class="input-group" style="margin-bottom: 20px">
+                <span type="text" aria-label="Ingredient" class="input-group-text">식재료</span>
+                <span type="text" aria-label="OnePerson" class="input-group-text">1인량(g)</span>
+            </div>
+            <div class="input-group" id="ingredientWithOnePerson" style="margin-bottom: 20px">
+
+                <input id="ingredient" type="text" aria-label="First name" class="form-control">
+                <input id="onePerson" type="text" aria-label="Last name" class="form-control">
+                <button onclick="add_ingredient()" type="button" class="btn btn-dark">추가하기</button>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">식수</span>
+                <input id="eatingNum" type="text" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="institution">사용 기관</label>
+                <select class="form-select" id="institution">
+                    <option value=""></option>
+                    <option value="산업체">산업체</option>
+                    <option value="초등학교">초등학교</option>
+                    <option value="중학교">중학교</option>
+                    <option value="고등학교">고등학교</option>
+                    <option value="어린이집">어린이집</option>
+                    <option value="요양병원">요양병원</option>
+
+                </select>
+            </div>
+            <div class="mybtns">
+                <button onclick="save_order()" type="button" class="btn btn-dark">저장하기</button>
+                <button onclick="close_box()" type="button" class="btn btn-outline-dark">닫기</button>
+            </div>
+        </div><br />
+
+        <!-- <div class="order-info" id="menuInputBox">
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">메뉴 이름</span>
+                <input id="menuName" type="text" class="form-control">
+            </div>
+
             <div class="input-group" style="margin-bottom: 20px">
                 <span type="text" aria-label="Ingredient" class="input-group-text">식재료</span>
                 <span type="text" aria-label="OnePerson" class="input-group-text">1인량(g)</span>
@@ -224,7 +288,7 @@
                 </select>
             </div>
             <button onclick="save_order()" type="button" class="btn btn-warning mybtn">수정하기</button>
-        </div>
+        </div> -->
         <table class="table">
             <thead>
                 <tr>
@@ -235,7 +299,7 @@
                     <th scope="col">예상 사용량 [1인량 X 식수] (kg)</th>
                 </tr>
             </thead>
-            <tbody id="menuDetailData">
+            <tbody>
                 <tr>
                     <th scope="col" id="institutionDetail"></th>
                     <th scope="col" id="ingredientDetail"></th>
