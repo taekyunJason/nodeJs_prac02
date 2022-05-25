@@ -94,15 +94,26 @@
 
         function save_order() {
             let menuName = $('#menuName').val()
-            let ingredient = $('#ingredient').val()
-            let onePerson = $('#onePerson').val()
             let eatingNum = $('#eatingNum').val()
             let institution = $('#institution').val()
-            // let additionalIngredient = $('#additionalIngredient').val()
-            // let additionalOnePerson = $('#additionalOnePerson').val()
+            // let additionalIngredient = $('.additionalIngredient').val()
+            // let additionalOnePerson = $('.additionalOnePerson').val()
+
+            let menuIngredient = []
+            let menuOnePerson = []
+
+            $("#ingredientWithOnePerson").find('.ingredient').each(function (idx, input) {
+                menuIngredient.push($(input).val())
+            })
+            $("#ingredientWithOnePerson").find('.onePerson').each(function (idx, input) {
+                menuOnePerson.push($(input).val())
+            })
 
 
-            console.log(menuName, ingredient, onePerson, eatingNum, institution)
+
+            console.log(menuName, eatingNum, institution)
+            // console.log(additionalIngredient, additionalOnePerson)
+            console.log(menuIngredient, menuOnePerson)
 
             $.ajax({
                 headers: {
@@ -113,9 +124,9 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     menuName,
-                    ingredient,
-                    onePerson,
                     eatingNum,
+                    menuIngredient,
+                    menuOnePerson,
                     institution,
                 }),
                 success: function (response) {
@@ -128,8 +139,8 @@
         function add_ingredient() {
             let temp_html =
                 `<div class="input-group" style="margin-top: 20px">
-                    <input id="additionalIngredient" type="text" class="form-control">
-                    <input id="additionalOnePerson" type="text" class="form-control">
+                    <input class="ingredient form-control" type="text" />
+                    <input class="onePerson form-control" type="text" />
                     <button onclick="add_ingredient()" type="button" class="btn btn-dark">추가하기</button>
                 </div>`
             $('#ingredientWithOnePerson').append(temp_html)
@@ -160,8 +171,8 @@
             </div>
             <div class="input-group" id="ingredientWithOnePerson" style="margin-bottom: 20px">
 
-                <input id="ingredient" type="text" aria-label="First name" class="form-control">
-                <input id="onePerson" type="text" aria-label="Last name" class="form-control">
+                <input class="ingredient form-control" type="text" aria-label="First name">
+                <input class="onePerson form-control" type="text" aria-label="Last name">
                 <button onclick="add_ingredient()" type="button" class="btn btn-dark">추가하기</button>
             </div>
             <div class="input-group mb-3">

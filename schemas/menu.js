@@ -12,11 +12,13 @@ const MenuSchema = mongoose.Schema({
   institution: {
     type: String,
   },
-  ingredient: {
-    type: String,
+  menuIngredient: {
+    type: Array,
+    default: [],
   },
-  onePerson: {
-    type: String,
+  menuOnePerson: {
+    type: Array,
+    default: [],
   },
   eatingNum: {
     type: String,
