@@ -115,40 +115,6 @@
 
         }
 
-        // function show_order() {
-        //     $.ajax({
-        //         type: 'GET',
-        //         url: '/menus',
-        //         data: {},
-        //         success: function (response) {
-        //             console.log(response)
-        //             let rows = response['menus']
-
-        //             for (let i = 0; i < rows.length; i++) {
-        //                 let menuName = rows[i]['menuName']
-        //                 let ingredient = rows[i]['ingredient']
-        //                 let onePerson = rows[i]['onePerson']
-        //                 let eatingNum = rows[i]['eatingNum']
-        //                 let institution = rows[i]['institution']
-        //                 let additionalIngredient = rows[i]['additionalIngredient']
-        //                 let additionalOnePerson = rows[i]['additionalOnePerson']
-
-        //                 let temp_html = `<tr>
-        //                                     <th scope="col">${menuName}</th>
-        //                                     <th scope="col">${institution}</th>
-        //                                     <th scope="col">${ingredient}</th>
-        //                                     <th scope="col">${onePerson}</th>
-        //                                     <th scope="col">${eatingNum}</th>
-        //                                     <th scope="col">${eatingNum * onePerson}</th>
-        //                                 </tr>`
-
-
-        //                 $('#order-box').append(temp_html)
-        //             }
-        //         }
-        //     });
-        // }
-
         function open_box() {
             $('#post-box').show()
         }
@@ -208,7 +174,7 @@
         <h1 id="putMenuName"></h1>
         <p>
             검색한 메뉴 정보를 아래에서 확인하세요! 😃<br />
-            변경할 사항은 "수정하기" 버튼으로 수정해보세요 :)
+            변경할 사항이 있다면 "수정하기" 버튼으로 수정해보세요 :)
         </p><br />
         <div class="d-grid gap-2 col-6 mx-auto">
             <button class="btn btn-success" type="button" onclick="open_box()">👩🏻‍🍳 메뉴 수정하기 ⬇️ 👨🏻‍🍳</button>
