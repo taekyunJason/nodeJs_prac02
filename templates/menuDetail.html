@@ -64,7 +64,7 @@
     </style>
     <script>
         $(document).ready(function () {
-            console.log(localStorage.getItem("token"))
+            //console.log(localStorage.getItem("token"))
             if (localStorage.getItem("token")) {
                 getMenuDetail();
             }
@@ -72,7 +72,7 @@
 
         function getMenuDetail() {
             let menuId = new URLSearchParams(location.search).get('menuId')
-            console.log("menuId : ", menuId);
+            //console.log("menuId : ", menuId);
 
             $.ajax({
                 headers: {
@@ -82,12 +82,19 @@
                 url: `/api/menuDetail?menuId=${menuId}`,
                 data: {},
                 success: function (response) {
-                    console.log(response);
+                    //console.log(response[0]);
                     let rows = response;
 
                     let menuName = rows[0].menuName;
                     let menuName_html = `<h1>[${menuName}]</h1>`
                     $('#putMenuName').append(menuName_html)
+
+                    let distributeWay = rows[0].distributeWay;
+                    console.log(distributeWay)
+                    let distributeWay_html = `<h1>[${distributeWay}]</h1>`
+                    $('#putMenuName').append(distributeWay_html)
+
+
 
                     for (let i = 0; i < response[0].menuIngredient.length; i++) {
                         let institution = rows[0].institution;
@@ -96,7 +103,8 @@
                         let eatingNum = rows[0].eatingNum;
                         let expectAmount = [(menuOnePerson[i] * eatingNum) / 1000];
 
-                        console.log(menuName, institution, menuIngredient, menuOnePerson, eatingNum, expectAmount)
+
+                        // console.log(menuName, institution, menuIngredient, menuOnePerson, eatingNum, expectAmount)
 
 
                         let menuDetailData_html = `<tr>
@@ -109,27 +117,11 @@
 
                         $("#menuDetail").append(menuDetailData_html);
                     }
-
-
-
-                    // let menuInstitutionData_html = `${institution}`
-                    // $('#institutionDetail').append(menuInstitutionData_html)
-                    // let menuIngredientData_html = `${menuIngredient[i]}`
-                    // $('#ingredientDetail').append(menuIngredientData_html)
-                    // let menuOnePersonData_html = `${menuOnePerson[i]}` + " [g]"
-                    // $('#onePersonDetail').append(menuOnePersonData_html)
-                    // let eatingNumData_html = `${eatingNum}` + " [명]"
-                    // $('#eatingNumDetail').append(eatingNumData_html)
-                    // let expectAmountData_html = `${expectAmount}` + " [kg]"
-
-                    // $('#menuDetail').append(menuDetailData_html)
                 },
                 error: function (error) {
                     alert(error.responseJSON.errorMessage);
                 },
             });
-
-
         }
 
         function open_box() {
@@ -145,26 +137,33 @@
             console.log("menuId : ", menuId);
 
             let menuName = $('#menuName').val()
-            let ingredient = $('#ingredient').val()
-            let onePerson = $('#onePerson').val()
             let eatingNum = $('#eatingNum').val()
             let institution = $('#institution').val()
-            let additionalIngredient = $('#additionalIngredient').val()
-            let additionalOnePerson = $('#additionalOnePerson').val()
+            let menuIngredient = []
+            let menuOnePerson = []
+            let distributeWay = $('#distributeWay').val()
 
-            console.log("name: ", menuName, "ingredient: ", ingredient, "one: ", onePerson, "eating: ", eatingNum, "institution: ", institution)
+            $("#ingredientWithOnePerson").find('.ingredient').each(function (idx, input) {
+                menuIngredient.push($(input).val())
+            })
+            $("#ingredientWithOnePerson").find('.onePerson').each(function (idx, input) {
+                menuOnePerson.push($(input).val())
+            })
+
+            console.log(menuName, eatingNum, institution)
+            // console.log(additionalIngredient, additionalOnePerson)
+            console.log(menuIngredient, menuOnePerson)
 
             $.ajax({
                 type: 'PATCH',
                 url: `/api/menuDetail?menuId=${menuId}`,
                 data: {
-                    menuName: menuName,
-                    ingredient: ingredient,
-                    onePerson: onePerson,
-                    eatingNum: eatingNum,
-                    institution: institution,
-                    additionalIngredient: additionalIngredient,
-                    additionalOnePerson: additionalOnePerson,
+                    menuName,
+                    eatingNum,
+                    menuIngredient,
+                    menuOnePerson,
+                    institution,
+                    distributeWay,
                 },
                 success: function (response) {
                     alert("메뉴가 수정되었습니다.")
@@ -176,8 +175,8 @@
         function add_ingredient() {
             let temp_html =
                 `<div class="input-group" style="margin-top: 20px">
-                    <input id="additionalIngredient" type="text" class="form-control">
-                    <input id="additionalOnePerson" type="text" class="form-control">
+                    <input class="ingredient form-control" type="text" />
+                    <input class="onePerson form-control" type="text" />
                     <button onclick="add_ingredient()" type="button" class="btn btn-dark">추가하기</button>
                 </div>`
             $('#ingredientWithOnePerson').append(temp_html)
@@ -227,7 +226,16 @@
                     <option value="고등학교">고등학교</option>
                     <option value="어린이집">어린이집</option>
                     <option value="요양병원">요양병원</option>
-
+                    <option value="복지관">복지관</option>
+                    <option value="기타">기타</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="institution">배식 방법</label>
+                <select class="form-select" id="distributeWay">
+                    <option selected></option>
+                    <option value="자율">자율</option>
+                    <option value="세팅">세팅</option>
                 </select>
             </div>
             <div class="mybtns">

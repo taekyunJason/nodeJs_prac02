@@ -23,6 +23,9 @@ const MenuSchema = mongoose.Schema({
   eatingNum: {
     type: String,
   },
+  distributeWay: {
+    type: String,
+  },
 });
 
 //모델이름 : nutrients, 스키마 : MenuSchema

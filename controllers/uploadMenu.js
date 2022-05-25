@@ -2,8 +2,14 @@ const Menu = require("../schemas/menu");
 const cryptoJS = require("crypto-js");
 
 const uploadMenu = async (req, res) => {
-  const { menuName, menuIngredient, menuOnePerson, eatingNum, institution } =
-    req.body;
+  const {
+    menuName,
+    menuIngredient,
+    menuOnePerson,
+    eatingNum,
+    institution,
+    distributeWay,
+  } = req.body;
 
   const today = new Date();
   const date = today.toLocaleString();
@@ -17,6 +23,7 @@ const uploadMenu = async (req, res) => {
     menuOnePerson,
     eatingNum,
     institution,
+    distributeWay,
   });
   await menu.save();
 

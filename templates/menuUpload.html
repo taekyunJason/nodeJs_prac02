@@ -53,54 +53,13 @@
         }
     </style>
     <script>
-        $(document).ready(function () {
-            // show_order()
-        });
-
-
-        // function show_order() {
-        //     $.ajax({
-        //         type: 'GET',
-        //         url: '/detail',
-        //         data: {},
-        //         success: function (response) {
-        //             console.log(response)
-        //             let rows = response['menus']
-
-        //             for (let i = 0; i < rows.length; i++) {
-        //                 let menuName = rows[i]['menuName']
-        //                 let ingredient = rows[i]['ingredient']
-        //                 let onePerson = rows[i]['onePerson']
-        //                 let eatingNum = rows[i]['eatingNum']
-        //                 let institution = rows[i]['institution']
-        //                 // let additionalIngredient = rows[i]['additionalIngredient']
-        //                 // let additionalOnePerson = rows[i]['additionalOnePerson']
-
-        //                 let temp_html = `<tr>
-        //                                     <th scope="col">${menuName}</th>
-        //                                     <th scope="col">${institution}</th>
-        //                                     <th scope="col">${ingredient}</th>
-        //                                     <th scope="col">${onePerson}</th>
-        //                                     <th scope="col">${eatingNum}</th>
-        //                                     <th scope="col">${eatingNum * onePerson}</th>
-        //                                 </tr>`
-
-
-        //                 $('#order-box').append(temp_html)
-        //             }
-        //         }
-        //     });
-        // }
-
         function save_order() {
             let menuName = $('#menuName').val()
             let eatingNum = $('#eatingNum').val()
             let institution = $('#institution').val()
-            // let additionalIngredient = $('.additionalIngredient').val()
-            // let additionalOnePerson = $('.additionalOnePerson').val()
-
             let menuIngredient = []
             let menuOnePerson = []
+            let distributeWay = $('#distributeWay').val()
 
             $("#ingredientWithOnePerson").find('.ingredient').each(function (idx, input) {
                 menuIngredient.push($(input).val())
@@ -109,11 +68,9 @@
                 menuOnePerson.push($(input).val())
             })
 
-
-
-            console.log(menuName, eatingNum, institution)
-            // console.log(additionalIngredient, additionalOnePerson)
-            console.log(menuIngredient, menuOnePerson)
+            // console.log(menuName, eatingNum, institution)
+            // // console.log(additionalIngredient, additionalOnePerson)
+            // console.log(menuIngredient, menuOnePerson)
 
             $.ajax({
                 headers: {
@@ -128,10 +85,14 @@
                     menuIngredient,
                     menuOnePerson,
                     institution,
+                    distributeWay,
                 }),
                 success: function (response) {
                     alert("식단이 저장되었습니다!");
                     location.replace("/main");
+                },
+                error: function (error) {
+                    alert(error.responseJSON.errorMessage);
                 },
             })
         }
@@ -191,6 +152,14 @@
                     <option value="요양병원">요양병원</option>
                     <option value="복지관">복지관</option>
                     <option value="기타">기타</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="institution">배식 방법</label>
+                <select class="form-select" id="distributeWay">
+                    <option selected></option>
+                    <option value="자율">자율</option>
+                    <option value="세팅">세팅</option>
                 </select>
             </div>
             <button onclick="save_order()" type="button" class="btn btn-warning mybtn">등록하기</button>
