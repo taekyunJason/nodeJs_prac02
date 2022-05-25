@@ -84,28 +84,45 @@
                 success: function (response) {
                     console.log(response);
                     let rows = response;
+
                     let menuName = rows[0].menuName;
-                    let institution = rows[0].institution;
-                    let ingredient = rows[0].ingredient;
-                    let onePerson = rows[0].onePerson;
-                    let eatingNum = rows[0].eatingNum;
-                    let expectAmount = (onePerson * eatingNum) / 1000;
-
-                    console.log(menuName, institution, ingredient, onePerson, eatingNum, expectAmount)
-
                     let menuName_html = `<h1>[${menuName}]</h1>`
                     $('#putMenuName').append(menuName_html)
 
-                    let menuInstitutionData_html = `${institution}`
-                    $('#institutionDetail').append(menuInstitutionData_html)
-                    let menuIngredientData_html = `${ingredient}`
-                    $('#ingredientDetail').append(menuIngredientData_html)
-                    let menuOnePersonData_html = `${onePerson}` + " [g]"
-                    $('#onePersonDetail').append(menuOnePersonData_html)
-                    let eatingNumData_html = `${eatingNum}` + " [명]"
-                    $('#eatingNumDetail').append(eatingNumData_html)
-                    let expectAmountData_html = `${expectAmount}` + " [kg]"
-                    $('#expectAmountDetail').append(expectAmountData_html)
+                    for (let i = 0; i < response[0].menuIngredient.length; i++) {
+                        let institution = rows[0].institution;
+                        let menuIngredient = rows[0].menuIngredient;
+                        let menuOnePerson = rows[0].menuOnePerson;
+                        let eatingNum = rows[0].eatingNum;
+                        let expectAmount = [(menuOnePerson[i] * eatingNum) / 1000];
+
+                        console.log(menuName, institution, menuIngredient, menuOnePerson, eatingNum, expectAmount)
+
+
+                        let menuDetailData_html = `<tr>
+                                                        <th scope="col" id="institutionDetail">${institution}</th>
+                                                        <th scope="col" id="ingredientDetail">${menuIngredient[i]}</th>
+                                                        <th scope="col" id="onePersonDetail">${menuOnePerson[i]}</th>
+                                                        <th scope="col" id="eatingNumDetail">${eatingNum}</th>
+                                                        <th scope="col" id="expectAmountDetail">${expectAmount}</th>
+                                                    </tr>`
+
+                        $("#menuDetail").append(menuDetailData_html);
+                    }
+
+
+
+                    // let menuInstitutionData_html = `${institution}`
+                    // $('#institutionDetail').append(menuInstitutionData_html)
+                    // let menuIngredientData_html = `${menuIngredient[i]}`
+                    // $('#ingredientDetail').append(menuIngredientData_html)
+                    // let menuOnePersonData_html = `${menuOnePerson[i]}` + " [g]"
+                    // $('#onePersonDetail').append(menuOnePersonData_html)
+                    // let eatingNumData_html = `${eatingNum}` + " [명]"
+                    // $('#eatingNumDetail').append(eatingNumData_html)
+                    // let expectAmountData_html = `${expectAmount}` + " [kg]"
+
+                    // $('#menuDetail').append(menuDetailData_html)
                 },
                 error: function (error) {
                     alert(error.responseJSON.errorMessage);
@@ -265,13 +282,13 @@
                     <th scope="col">예상 사용량 [1인량 X 식수] (kg)</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="menuDetail">
                 <tr>
-                    <th scope="col" id="institutionDetail"></th>
+                    <!-- <th scope="col" id="institutionDetail"></th>
                     <th scope="col" id="ingredientDetail"></th>
                     <th scope="col" id="onePersonDetail"></th>
                     <th scope="col" id="eatingNumDetail"></th>
-                    <th scope="col" id="expectAmountDetail"></th>
+                    <th scope="col" id="expectAmountDetail"></th> -->
                 </tr>
             </tbody>
         </table>
