@@ -75,50 +75,69 @@
                     console.log(response);
                     let rows = response;
                     let menuName = rows[0].menuName;
-                    let temp_html = `<h1>[${menuName}]</h1>`
-                    $('#putMenuName').append(temp_html)
+                    let institution = rows[0].institution;
+                    let ingredient = rows[0].ingredient;
+                    let onePerson = rows[0].onePerson;
+                    let eatingNum = rows[0].eatingNum;
+                    let expectAmount = (onePerson * eatingNum) / 1000;
+
+                    console.log(menuName, institution, ingredient, onePerson, eatingNum, expectAmount)
+
+                    let menuName_html = `<h1>[${menuName}]</h1>`
+                    $('#putMenuName').append(menuName_html)
+
+                    let menuInstitutionData_html = `${institution}`
+                    $('#institutionDetail').append(menuInstitutionData_html)
+                    let menuIngredientData_html = `${ingredient}`
+                    $('#ingredientDetail').append(menuIngredientData_html)
+                    let menuOnePersonData_html = `${onePerson}` + " [g]"
+                    $('#onePersonDetail').append(menuOnePersonData_html)
+                    let eatingNumData_html = `${eatingNum}` + " [명]"
+                    $('#eatingNumDetail').append(eatingNumData_html)
+                    let expectAmountData_html = `${expectAmount}` + " [kg]"
+                    $('#expectAmountDetail').append(expectAmountData_html)
                 },
-                // error: function (error) {
-                //     alert(error.responseJSON.errorMessage);
-                // },
+                error: function (error) {
+                    alert(error.responseJSON.errorMessage);
+                },
             });
 
 
         }
 
-        function show_order() {
-            $.ajax({
-                type: 'GET',
-                url: '/menus',
-                data: {},
-                success: function (response) {
-                    console.log(response)
-                    let rows = response['menus']
+        // function show_order() {
+        //     $.ajax({
+        //         type: 'GET',
+        //         url: '/menus',
+        //         data: {},
+        //         success: function (response) {
+        //             console.log(response)
+        //             let rows = response['menus']
 
-                    for (let i = 0; i < rows.length; i++) {
-                        let menuName = rows[i]['menuName']
-                        let ingredient = rows[i]['ingredient']
-                        let onePerson = rows[i]['onePerson']
-                        let eatingNum = rows[i]['eatingNum']
-                        let institution = rows[i]['institution']
-                        let additionalIngredient = rows[i]['additionalIngredient']
-                        let additionalOnePerson = rows[i]['additionalOnePerson']
+        //             for (let i = 0; i < rows.length; i++) {
+        //                 let menuName = rows[i]['menuName']
+        //                 let ingredient = rows[i]['ingredient']
+        //                 let onePerson = rows[i]['onePerson']
+        //                 let eatingNum = rows[i]['eatingNum']
+        //                 let institution = rows[i]['institution']
+        //                 let additionalIngredient = rows[i]['additionalIngredient']
+        //                 let additionalOnePerson = rows[i]['additionalOnePerson']
 
-                        let temp_html = `<tr>
-                                            <th scope="col">${menuName}</th>
-                                            <th scope="col">${institution}</th>
-                                            <th scope="col">${ingredient}</th>
-                                            <th scope="col">${onePerson}</th>
-                                            <th scope="col">${eatingNum}</th>
-                                            <th scope="col">${eatingNum * onePerson}</th>
-                                        </tr>`
+        //                 let temp_html = `<tr>
+        //                                     <th scope="col">${menuName}</th>
+        //                                     <th scope="col">${institution}</th>
+        //                                     <th scope="col">${ingredient}</th>
+        //                                     <th scope="col">${onePerson}</th>
+        //                                     <th scope="col">${eatingNum}</th>
+        //                                     <th scope="col">${eatingNum * onePerson}</th>
+        //                                 </tr>`
 
 
-                        $('#order-box').append(temp_html)
-                    }
-                }
-            });
-        }
+        //                 $('#order-box').append(temp_html)
+        //             }
+        //         }
+        //     });
+        // }
 
         function save_order() {
             let menuName = $('#menuName').val()
@@ -213,11 +232,17 @@
                     <th scope="col">식재료</th>
                     <th scope="col">1인량 (g)</th>
                     <th scope="col">식수 (명)</th>
-                    <th scope="col">예상 사용량 [1인량 X 식수]</th>
+                    <th scope="col">예상 사용량 [1인량 X 식수] (kg)</th>
                 </tr>
             </thead>
-            <tbody id="order-box">
-
+            <tbody id="menuDetailData">
+                <tr>
+                    <th scope="col" id="institutionDetail"></th>
+                    <th scope="col" id="ingredientDetail"></th>
+                    <th scope="col" id="onePersonDetail"></th>
+                    <th scope="col" id="eatingNumDetail"></th>
+                    <th scope="col" id="expectAmountDetail"></th>
+                </tr>
             </tbody>
         </table>
     </div>
