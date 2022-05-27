@@ -1,6 +1,5 @@
 //mongoose와 db를 연결
 const dotenv = require("dotenv");
-
 dotenv.config();
 
 const mongoose = require("mongoose");
