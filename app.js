@@ -12,7 +12,7 @@ const requestMiddleWare = (req, res, next) => {
   next();
 };
 
-//app.use : 미들웨어를 사용할수 있게 해주는 코드
+//app.use : 미들웨어를 사용
 app.use(cors());
 app.use(express.json());
 app.use(requestMiddleWare);
