@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const connect = require("./schemas");
+const morgan = require("morgan");
 const cors = require("cors");
-const Nutrients = require("./schemas/menu");
 const app = express();
 const port = 3000;
 
@@ -14,9 +14,10 @@ const requestMiddleWare = (req, res, next) => {
 
 //app.use : 미들웨어를 사용
 app.use(cors());
-app.use(express.json());
 app.use(requestMiddleWare);
-app.use(express.urlencoded({ extended: false }));
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //라우터
 const userRouter = require("./routers/user");
@@ -93,6 +94,12 @@ app.get("/show/menuDetail", async (req, res) => {
 
 //라우터 연결
 app.use("/api", [userRouter, menuRouter, mainPageRouter, menuDetailRouter]);
+
+//에러 핸들러
+app.use(function (err, req, res, next) {
+  console.error(err);
+  res.status(500).send("Something Broke!");
+});
 
 //app.listen : 포트번호로 서버를 켜는 코드
 app.listen(port, () => {

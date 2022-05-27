@@ -8,7 +8,8 @@
     "dotenv": "^16.0.1",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.8"
+    "mongoose": "^6.2.8",
+    "morgan": "^1.10.0"
   },
   "name": "nodejs_prac02",
   "description": "",
