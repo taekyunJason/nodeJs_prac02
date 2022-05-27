@@ -4,7 +4,7 @@ const connect = require("./schemas");
 const cors = require("cors");
 const Nutrients = require("./schemas/menu");
 const app = express();
-const port = 3001;
+const port = 3000;
 
 //접속로그 확인
 const requestMiddleWare = (req, res, next) => {
