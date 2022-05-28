@@ -2,23 +2,23 @@ name: CI-CD1
 on:
   push:
     branches:
-      - main
+      - main  //자동으로 업데이트될 브랜치
   pull_request:
     branches:
       - main
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-18.04  //우분투 버젼
     steps:
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.REMOTE_IP_1 }}
-          username: ${{ secrets.REMOTE_SSH_ID }}
-          key: ${{ secrets.REMOTE_SSH_KEY }}
-          port: ${{ secrets.REMOTE_SSH_PORT }}
+          host: ${{ secrets.REMOTE_IP_1 }}  //ec2 ip 주소
+          username: ${{ secrets.REMOTE_SSH_ID }} //ubuntu 사용(소문자로 사용!)
+          key: ${{ secrets.REMOTE_SSH_KEY }} //aws key 파일 내용
+          port: ${{ secrets.REMOTE_SSH_PORT }} //포트번호
           script: |
-            cd /home/ubuntu/nutrient
+            cd /home/ubuntu/nutrient //프로젝트 이름으로 맞게 수정!
             # git config --global --add safe.directory /home/ubuntu/nutrient
             sudo git pull
             # sudo npm update
