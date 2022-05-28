@@ -14,10 +14,11 @@ const requestMiddleWare = (req, res, next) => {
 
 //app.use : 미들웨어를 사용
 app.use(cors());
-app.use(requestMiddleWare);
 app.use(morgan("dev"));
+app.use("/", express.static(__dirname, "static"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(requestMiddleWare);
 
 //라우터
 const userRouter = require("./routers/user");
@@ -25,38 +26,6 @@ const menuRouter = require("./routers/uploadMenu");
 const mainPageRouter = require("./routers/main");
 const menuDetailRouter = require("./routers/menuDetail");
 connect();
-
-// app.get("/mainData", async (req, res) => {
-//   const menuInfo = await Nutrients.find({});
-//   res.json(menuInfo);
-// });
-
-// app.post("/onePerson", async (req, res) => {
-//   const today = new Date();
-//   const date = today.toLocaleString();
-//   const { menuName, ingredient, onePerson, eatingNum, institution } = req.body;
-//   console.log(req.body);
-
-//   var hash = cryptoJS.SHA256(date);
-//   const menuId = hash["words"][0];
-
-//   const nutrient = new Nutrients({
-//     menuName,
-//     menuId,
-//     ingredient,
-//     onePerson,
-//     eatingNum,
-//     institution,
-//     date,
-//   });
-
-//   await nutrient.save();
-//   res.status(201).send({});
-// });
-
-// app.get("/", async (req, res) => {
-//   res.send("데이터가 전달되었습니다.");
-// });
 
 //페이지 이동
 //로그인 페이지
