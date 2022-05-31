@@ -18,7 +18,7 @@ const search = async (req, res) => {
 
   console.log(searchMenu);
 
-  //검색어와 일치하는 메뉴 없는 경우 예외처리
+  //검색어와 일치하는 메뉴 없는 경우 예외처리.
   if (searchMenu.length === 0) {
     return res.status(401).json({
       errorMessage: "검색어가 포함된 메뉴가 없습니다 🥲\n 다시 검색해주세요 🤓",
