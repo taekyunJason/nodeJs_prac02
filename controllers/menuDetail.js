@@ -1,5 +1,6 @@
 const Menu = require("../schemas/menu");
 
+//메뉴 상세 페이지
 const menuDetail = async (req, res) => {
   let { menuId } = req.query;
   console.log(menuId);

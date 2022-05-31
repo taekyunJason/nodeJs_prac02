@@ -1,6 +1,7 @@
 const Menu = require("../schemas/menu");
 const cryptoJS = require("crypto-js");
 
+//메뉴 등록
 const uploadMenu = async (req, res) => {
   const {
     menuName,
