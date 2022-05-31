@@ -15,7 +15,7 @@ const requestMiddleWare = (req, res, next) => {
 //app.use : 미들웨어를 사용
 app.use(cors());
 app.use(morgan("dev"));
-app.use("/", express.static(__dirname, "static"));
+//app.use("/", express.static(__dirname, "static"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(requestMiddleWare);
