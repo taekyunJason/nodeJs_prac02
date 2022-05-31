@@ -1,5 +1,6 @@
 const Menu = require("../schemas/menu");
 
+//키워드 검색하기
 const search = async (req, res) => {
   let { keyword } = req.query;
   console.log(keyword);
