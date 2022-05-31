@@ -14,6 +14,7 @@ const menuDetail = async (req, res) => {
   return res.status(201).json(clickedMenu);
 };
 
+//메뉴 상세페이지 수정
 const updateMenu = async (req, res) => {
   let { menuId } = req.query;
   let { menuName, ingredient, onePerson, eatingNum, institution } = req.body;
