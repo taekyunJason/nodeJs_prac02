@@ -16,5 +16,9 @@ const connnect = () => {
     });
 };
 
+mongoose.connection.on("error", (err) => {
+  console.error("몽고디비 연결 에러", err);
+});
+
 //connnect를 모듈로 내보내겠다는 설정
 module.exports = connnect;
