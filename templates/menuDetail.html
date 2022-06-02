@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="shortcut icon" href="../favicon.ico">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,97 +18,97 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 
     <title>메뉴별 필요수량</title>
+</head>
+<style>
+    * {
+        font-family: 'Gowun Batang', serif;
+        color: black;
+    }
 
-    <style>
-        * {
-            font-family: 'Gowun Batang', serif;
-            color: black;
+    body {
+        background-position: center;
+        background-size: cover;
+    }
+
+    h1 {
+        font-weight: bold;
+    }
+
+    .order {
+        width: 85%;
+        margin: 60px auto 0px auto;
+        padding-bottom: 60px;
+    }
+
+    .mybtn {
+        width: 100%;
+    }
+
+    .mypost {
+        width: 95%;
+        max-width: 500px;
+        margin: 20px auto 0px auto;
+        padding: 20px;
+        box-shadow: 0px 0px 3px 0px gray;
+
+        display: none;
+    }
+
+    .order>table {
+        margin: 40px 0;
+        font-size: 18px;
+    }
+
+    option {
+        color: black;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        //console.log(localStorage.getItem("token"))
+        if (localStorage.getItem("token")) {
+            getMenuDetail();
         }
+    });
 
-        body {
-            background-position: center;
-            background-size: cover;
-        }
+    function getMenuDetail() {
+        let menuId = new URLSearchParams(location.search).get('menuId')
+        //console.log("menuId : ", menuId);
 
-        h1 {
-            font-weight: bold;
-        }
+        $.ajax({
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            type: "GET",
+            url: `/api/menuDetail?menuId=${menuId}`,
+            data: {},
+            success: function (response) {
+                //console.log(response[0]);
+                let rows = response;
 
-        .order {
-            width: 85%;
-            margin: 60px auto 0px auto;
-            padding-bottom: 60px;
-        }
+                let menuName = rows[0].menuName;
+                let menuName_html = `<h1>[${menuName}]</h1>`
+                $('#putMenuName').append(menuName_html)
 
-        .mybtn {
-            width: 100%;
-        }
-
-        .mypost {
-            width: 95%;
-            max-width: 500px;
-            margin: 20px auto 0px auto;
-            padding: 20px;
-            box-shadow: 0px 0px 3px 0px gray;
-
-            display: none;
-        }
-
-        .order>table {
-            margin: 40px 0;
-            font-size: 18px;
-        }
-
-        option {
-            color: black;
-        }
-    </style>
-    <script>
-        $(document).ready(function () {
-            //console.log(localStorage.getItem("token"))
-            if (localStorage.getItem("token")) {
-                getMenuDetail();
-            }
-        });
-
-        function getMenuDetail() {
-            let menuId = new URLSearchParams(location.search).get('menuId')
-            //console.log("menuId : ", menuId);
-
-            $.ajax({
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-                type: "GET",
-                url: `/api/menuDetail?menuId=${menuId}`,
-                data: {},
-                success: function (response) {
-                    //console.log(response[0]);
-                    let rows = response;
-
-                    let menuName = rows[0].menuName;
-                    let menuName_html = `<h1>[${menuName}]</h1>`
-                    $('#putMenuName').append(menuName_html)
-
-                    let distributeWay = rows[0].distributeWay;
-                    console.log(distributeWay)
-                    let distributeWay_html = `<h1>[${distributeWay}]</h1>`
-                    $('#putMenuName').append(distributeWay_html)
+                let distributeWay = rows[0].distributeWay;
+                console.log(distributeWay)
+                let distributeWay_html = `<h1>[${distributeWay}]</h1>`
+                $('#putMenuName').append(distributeWay_html)
 
 
 
-                    for (let i = 0; i < response[0].menuIngredient.length; i++) {
-                        let institution = rows[0].institution;
-                        let menuIngredient = rows[0].menuIngredient;
-                        let menuOnePerson = rows[0].menuOnePerson;
-                        let eatingNum = rows[0].eatingNum;
-                        let expectAmount = [(menuOnePerson[i] * eatingNum) / 1000];
+                for (let i = 0; i < response[0].menuIngredient.length; i++) {
+                    let institution = rows[0].institution;
+                    let menuIngredient = rows[0].menuIngredient;
+                    let menuOnePerson = rows[0].menuOnePerson;
+                    let eatingNum = rows[0].eatingNum;
+                    let expectAmount = [(menuOnePerson[i] * eatingNum) / 1000];
 
 
-                        // console.log(menuName, institution, menuIngredient, menuOnePerson, eatingNum, expectAmount)
+                    // console.log(menuName, institution, menuIngredient, menuOnePerson, eatingNum, expectAmount)
 
 
-                        let menuDetailData_html = `<tr>
+                    let menuDetailData_html = `<tr>
                                                         <th scope="col" id="institutionDetail">${institution}</th>
                                                         <th scope="col" id="ingredientDetail">${menuIngredient[i]}</th>
                                                         <th scope="col" id="onePersonDetail">${menuOnePerson[i]}</th>
@@ -115,74 +116,74 @@
                                                         <th scope="col" id="expectAmountDetail">${expectAmount}</th>
                                                     </tr>`
 
-                        $("#menuDetail").append(menuDetailData_html);
-                    }
-                },
-                error: function (error) {
-                    alert(error.responseJSON.errorMessage);
-                },
-            });
-        }
-
-        function open_box() {
-            $('#post-box').show()
-        }
-
-        function close_box() {
-            $('#post-box').hide()
-        }
-
-        function save_order() {
-            let menuId = new URLSearchParams(location.search).get('menuId')
-            console.log("menuId : ", menuId);
-
-            let menuName = $('#menuName').val()
-            let eatingNum = $('#eatingNum').val()
-            let institution = $('#institution').val()
-            let menuIngredient = []
-            let menuOnePerson = []
-            let distributeWay = $('#distributeWay').val()
-
-            $("#ingredientWithOnePerson").find('.ingredient').each(function (idx, input) {
-                menuIngredient.push($(input).val())
-            })
-            $("#ingredientWithOnePerson").find('.onePerson').each(function (idx, input) {
-                menuOnePerson.push($(input).val())
-            })
-
-            console.log(menuName, eatingNum, institution)
-            // console.log(additionalIngredient, additionalOnePerson)
-            console.log(menuIngredient, menuOnePerson)
-
-            $.ajax({
-                type: 'PATCH',
-                url: `/api/menuDetail?menuId=${menuId}`,
-                data: {
-                    menuName,
-                    eatingNum,
-                    menuIngredient,
-                    menuOnePerson,
-                    institution,
-                    distributeWay,
-                },
-                success: function (response) {
-                    alert("메뉴가 수정되었습니다.")
-                    window.location.reload()
+                    $("#menuDetail").append(menuDetailData_html);
                 }
-            })
-        }
+            },
+            error: function (error) {
+                alert(error.responseJSON.errorMessage);
+            },
+        });
+    }
 
-        function add_ingredient() {
-            let temp_html =
-                `<div class="input-group" style="margin-top: 20px">
+    function open_box() {
+        $('#post-box').show()
+    }
+
+    function close_box() {
+        $('#post-box').hide()
+    }
+
+    function save_order() {
+        let menuId = new URLSearchParams(location.search).get('menuId')
+        console.log("menuId : ", menuId);
+
+        let menuName = $('#menuName').val()
+        let eatingNum = $('#eatingNum').val()
+        let institution = $('#institution').val()
+        let menuIngredient = []
+        let menuOnePerson = []
+        let distributeWay = $('#distributeWay').val()
+
+        $("#ingredientWithOnePerson").find('.ingredient').each(function (idx, input) {
+            menuIngredient.push($(input).val())
+        })
+        $("#ingredientWithOnePerson").find('.onePerson').each(function (idx, input) {
+            menuOnePerson.push($(input).val())
+        })
+
+        console.log(menuName, eatingNum, institution)
+        // console.log(additionalIngredient, additionalOnePerson)
+        console.log(menuIngredient, menuOnePerson)
+
+        $.ajax({
+            type: 'PATCH',
+            url: `/api/menuDetail?menuId=${menuId}`,
+            data: {
+                menuName,
+                eatingNum,
+                menuIngredient,
+                menuOnePerson,
+                institution,
+                distributeWay,
+            },
+            success: function (response) {
+                alert("메뉴가 수정되었습니다.")
+                window.location.reload()
+            }
+        })
+    }
+
+    function add_ingredient() {
+        let temp_html =
+            `<div class="input-group" style="margin-top: 20px">
                     <input class="ingredient form-control" type="text" />
                     <input class="onePerson form-control" type="text" />
                     <button onclick="add_ingredient()" type="button" class="btn btn-dark">추가하기</button>
                 </div>`
-            $('#ingredientWithOnePerson').append(temp_html)
-        }
-    </script>
-</head>
+        $('#ingredientWithOnePerson').append(temp_html)
+    }
+</script>
+
 
 <body>
     <div class="mask"></div>
