@@ -57,6 +57,7 @@
 
         if (!userId || !userPw) {
             alert("값을 입력해주세요!")
+            return;
         }
         $.ajax({
             type: 'POST',
@@ -88,6 +89,9 @@
                 src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbIUf5j%2FbtruI7IUbkd%2Ff7z2hpoMbLWGNW0SyFK2z0%2Fimg.png"
                 width="70%" />
         </div>
+        <p></p>
+        <p></p>
+        <p></p>
         <div class="input_info">
             <p>아이디 : <input id="userId" type="text" placeholder="Please Enter your ID" style="width: 300px" /></p>
             <p>비밀번호 : <input id="userPw" type="password" placeholder="Please Enter your Password"
