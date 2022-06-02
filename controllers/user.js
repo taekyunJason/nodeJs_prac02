@@ -35,12 +35,22 @@ const signUp = async (req, res) => {
   }
 
   //아이디 닉네임 중복확인
-  const existUser = await User.findOne({
-    $or: [{ userId, userNick }],
+  const existUserId = await User.findOne({
+    $or: [{ userId }],
   });
-  if (existUser) {
+  if (existUserId) {
     res.status(400).send({
-      errorMessage: "이미 등록된 아이디 혹은 닉네임입니다.",
+      errorMessage: "이미 등록된 아이디입니다.",
+    });
+    return;
+  }
+
+  const existUserNick = await User.findOne({
+    $or: [{ userNick }],
+  });
+  if (existUserNick) {
+    res.status(400).send({
+      errorMessage: "이미 등록된 닉네임입니다.",
     });
     return;
   }
@@ -66,14 +76,18 @@ const signUp = async (req, res) => {
 
 const login = async (req, res) => {
   const { userId, userPw } = req.body;
-  const user = await User.findOne({ userId, userPw }).exec();
+  const hashed = bcrypt.hashSync(userPw, 10);
+  console.log(hashed);
+  const user = await User.findOne({ userId }).exec();
+  console.log(user);
+  // const unHashPw = bcrypt.compareSync(hashed, user.userPw);
 
-  if (!user) {
-    res.status(401).send({
-      errorMessage: "아이디 혹은 비밀번호가 잘못되었습니다.",
-    });
-    return;
-  }
+  // if (user.userId !== userId || unHashPw === false) {
+  //   res.status(401).send({
+  //     errorMessage: "아이디 혹은 비밀번호가 잘못되었습니다.",
+  //   });
+  //   return;
+  // }
   const userName = user.userName;
   const userNick = user.userNick;
   const tokenOptions = { expiresIn: "1d", issuer: "nutrient" };
