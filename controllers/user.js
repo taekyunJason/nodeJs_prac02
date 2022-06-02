@@ -51,7 +51,7 @@ const signUp = async (req, res) => {
     userId,
     userNick,
     userName,
-    userPw,
+    userPw: hashed,
     userEmail,
     userInstitution,
     route,
