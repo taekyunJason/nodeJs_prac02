@@ -5,14 +5,9 @@ dotenv.config();
 
 //mongoose를 서버 주로의 컬렉션에 연결하고, undefined일때는 무시하고 error는 캐치해서 콘솔에 띄워주는 설정
 const connnect = async () => {
-  await mongoose
-    .connect(process.env.MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  await mongoose.connect(process.env.MONGO_URL).catch((err) => {
+    console.error(err);
+  });
 };
 
 mongoose.connection.on("error", (err) => {
