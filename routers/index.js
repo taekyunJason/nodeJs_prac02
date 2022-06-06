@@ -32,7 +32,7 @@ router.post("/room", async (req, res, next) => {
     });
     const io = req.app.get("io");
     io.of("/room").emit("newRoom", newRoom);
-    res.redirect(`/room/${newRoom._id}?password=${req.body.password}`);
+    res.redirect(`/chat/room/${newRoom._id}?password=${req.body.password}`);
   } catch (error) {
     console.error(error);
     next(error);
@@ -47,7 +47,7 @@ router.get("/room/:id", async (req, res, next) => {
       return res.redirect("/?error=존재하지 않는 방입니다.");
     }
     if (room.password && room.password !== req.query.password) {
-      return res.redirect("/?error=비밀번호가 틀렸습니다.");
+      return res.redirect("/chat?error=비밀번호가 틀렸습니다.");
     }
     const { rooms } = io.of("/chat").adapter;
     if (

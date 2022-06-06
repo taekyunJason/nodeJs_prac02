@@ -30,7 +30,7 @@
         </tbody>
     </table>
     <div class="error-message">{{error}}</div>
-    <a href="/room">채팅방 생성</a>
+    <a href="/chat/room">채팅방 생성</a>
     <div class="d-grid gap-2 col-6 mx-auto">
         <button class="btn btn-primary" type="button" onclick="moveMainPage()">메인으로 이동하기</button>
 
@@ -44,7 +44,7 @@
     function moveMainPage() {
         window.location.href = "/main";
     }
-    const socket = io.connect('http://localhost:3000/room', { // 네임스페이스
+    const socket = io.connect('http://localhost:3000/chat/room', { // 네임스페이스
         path: '/socket.io',
     });
 
@@ -86,9 +86,9 @@
     function addBtnEvent(e) { // 방 입장 클릭 시
         if (e.target.dataset.password === 'true') {
             const password = prompt('비밀번호를 입력하세요');
-            location.href = '/room/' + e.target.dataset.id + '?password=' + password;
+            location.href = '/chat/room/' + e.target.dataset.id + '?password=' + password;
         } else {
-            location.href = '/room/' + e.target.dataset.id;
+            location.href = '/chat/room/' + e.target.dataset.id;
         }
     }
 

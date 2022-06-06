@@ -58,8 +58,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", indexRouter);
-
 //app.use : 미들웨어를 사용
 app.use(cors());
 app.use(morgan("dev"));
@@ -76,7 +74,7 @@ const menuDetailRouter = require("./routers/menuDetail");
 
 //페이지 이동
 //로그인 페이지
-app.get("/login", async (req, res) => {
+app.get("/", async (req, res) => {
   console.log("로그인 화면입니다");
   const path = require("path");
   res.sendFile(path.join(__dirname + "/templates/login.html"));
@@ -109,6 +107,7 @@ app.get("/show/menuDetail", async (req, res) => {
 });
 
 //라우터 연결
+app.use("/chat", indexRouter);
 app.use("/api", [userRouter, menuRouter, mainPageRouter, menuDetailRouter]);
 
 app.use((req, res, next) => {
