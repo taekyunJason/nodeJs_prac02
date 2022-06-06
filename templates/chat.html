@@ -43,7 +43,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     function updateView() {
-        window.location.reload
+        window.location.reload();
     }
     const socket = io.connect('http://13.125.30.54:3000/chat', {
         path: '/socket.io',
