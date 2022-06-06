@@ -31,6 +31,7 @@ module.exports = (server, app, sessionMiddleware) => {
     const {
       headers: { referer },
     } = req;
+    console.log("req.color------->", req.session.color);
     const roomId = referer
       .split("/")
       [referer.split("/").length - 1].replace(/\?.+/, "");
