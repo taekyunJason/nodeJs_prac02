@@ -47,6 +47,8 @@
     }
     const socket = io.connect('http://13.125.30.54:3000/chat', {
         path: '/socket.io',
+        transports: ['websocket'],
+
     });
     socket.on('join', function (data) {
         const div = document.createElement('div');
