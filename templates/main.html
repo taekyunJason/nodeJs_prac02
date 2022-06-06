@@ -1,257 +1,109 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:font-family="http://www.w3.org/1999/xhtml">
+{% extends 'layout.html' %}
 
-<head>
-    <link rel="shortcut icon" href="../favicon2.ico">
+{% block content %}
+<h1>GIF 채팅방</h1>
+<fieldset>
+    <legend>채팅방 목록</legend>
+    <table>
+        <thead>
+            <tr>
+                <th>방 제목</th>
+                <th>종류</th>
+                <th>허용 인원</th>
+                <th>방장</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr data-id="{{room._id}}">
+                <td>{{room.title}}</td>
+                <td>{{'비밀방' if room.password else '공개방'}}</td>
+                <td>{{room.max}}</td>
+                <td style="color: {{room.owner}}">{{room.owner}}</td>
+                <td>
+                    <button data-password="{{'true' if room.password else 'false'}}" data-id="{{room._id}}"
+                        class="join-btn">입장
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="error-message">{{error}}</div>
+    <a href="/room">채팅방 생성</a>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button class="btn btn-primary" type="button" onclick="moveMainPage()">메인으로 이동하기</button>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta property="og:title" content="영양:소" />
-    <meta property="og:description" content="영양사를 위한 식단 저장소" />
-    <meta property="og:image"
-        content="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbIUf5j%2FbtruI7IUbkd%2Ff7z2hpoMbLWGNW0SyFK2z0%2Fimg.png" />
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-
-    <title>[영양:소]</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Gideon+Roman&family=Gugi&family=Jua&family=Noto+Sans+KR:wght@500&display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Gideon+Roman&family=Gugi&family=Jua&family=Noto+Sans+KR:wght@500&display=swap"
-        rel="stylesheet">
-</head>
-<style>
-    h1 {
-        font-family: 'Gugi', cursive;
-    }
-
-    body {
-        font-family: 'Jua', sans-serif;
-    }
-
-    .headerTitle {
-        background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://cdn.pixabay.com/photo/2014/09/15/16/53/tomatoes-447170_1280.jpg");
-        background-size: auto;
-        background-position: center;
-
-        color: white;
-        width: 100%;
-        height: 200px;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        align-self: center;
-
-    }
-
-    .wrap {
-        width: 100%;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .headerTitle>button {
-        width: 200px;
-        height: 50px;
-
-        background-color: transparent;
-        color: white;
-
-        border-radius: 30px;
-        border: 1px solid white;
-    }
-
-    .headerTitle>button:hover {
-        border: 3px solid white;
-    }
-
-    .mypost {
-        max-width: 500px;
-        width: 95%;
-        height: 310 px;
-        margin: 20px auto 20px auto;
-        box-shadow: 0px 0px 3px 0px gray;
-        padding: 20px;
-        display: none;
-    }
-
-    .btn-outline-success {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-
-    }
-
-    .buttons>button {
-        margin-right: 10px;
-    }
-
-    .mycards {
-        width: 95%;
-        max-width: 500px;
-        margin: auto;
-    }
-
-    .mycards>card {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .form-control>button:hover {
-        border: 3px solid black;
-    }
-
-    .input-group {
-        margin-top: 20px;
-    }
-
-    .searchedMenu {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
-
+    </div>
+</fieldset>
+<script src="/socket.io/socket.io.js"></script>
 <script>
-    $(document).ready(function () {
-        if (localStorage.getItem("token")) {
-            get_userNick();
-        }
+    function moveDetailPage() {
+        window.location.href = "/show/menuDetail";
+    }
+    function moveMainPage() {
+        window.location.href = "/main";
+    }
+    const socket = io.connect('http://localhost:3000/room', { // 네임스페이스
+        path: '/socket.io',
     });
 
-    function get_userNick() {
-        $.ajax({
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-            type: "GET",
-            url: "/api/user/loginCheck",
-            data: {},
-            success: function (response) {
-                console.log(response);
-                let temp_html = `<h2 style="margin-top: 20px">안녕하세요<p>${response[0].userNick}님!</h2>`
-                $('#putNickname').append(temp_html)
-            },
-            error: function (error) {
-                alert(error.responseJSON.errorMessage);
-            },
+    socket.on('newRoom', function (data) { // 새 방 이벤트 시 새 방 생성
+        const tr = document.createElement('tr');
+        let td = document.createElement('td');
+        td.textContent = data.title;
+        tr.appendChild(td);
+        td = document.createElement('td');
+        td.textContent = data.password ? '비밀방' : '공개방';
+        tr.appendChild(td);
+        td = document.createElement('td');
+        td.textContent = data.max;
+        tr.appendChild(td);
+        td = document.createElement('td');
+        td.style.color = data.owner;
+        td.textContent = data.owner;
+        tr.appendChild(td);
+        td = document.createElement('td');
+        const button = document.createElement('button');
+        button.textContent = '입장';
+        button.dataset.password = data.password ? 'true' : 'false';
+        button.dataset.id = data._id;
+        button.addEventListener('click', addBtnEvent);
+        td.appendChild(button);
+        tr.appendChild(td);
+        tr.dataset.id = data._id;
+        document.querySelector('table tbody').appendChild(tr); // 화면에 추가
+    });
+
+    socket.on('removeRoom', function (data) { // 방 제거 이벤트 시 id가 일치하는 방 제거
+        document.querySelectorAll('tbody tr').forEach(function (tr) {
+            if (tr.dataset.id === data) {
+                tr.parentNode.removeChild(tr);
+            }
         });
-    }
+    });
 
-    function menu_search() {
-        let searchMenu = $('#searchMenu').val()
-        // console.log(searchMenu);
-
-        if (searchMenu === '' || searchMenu === null) {
-            alert('검색할 메뉴를 입력해주세요 🙂')
+    function addBtnEvent(e) { // 방 입장 클릭 시
+        if (e.target.dataset.password === 'true') {
+            const password = prompt('비밀번호를 입력하세요');
+            location.href = '/room/' + e.target.dataset.id + '?password=' + password;
         } else {
-            $('#result_list').empty()
-            $.ajax({
-                type: 'GET',
-                url: '/api/main/search' + '?' + $.param({ "keyword": searchMenu }),
-                data: {},
-                success: function (response) {
-                    console.log(response)
-                    let result_html = `<div class="searchedMenu" id="searchedMenuText">
-                                            <ul>
-                                                <h3>${searchMenu} 이/가 포함된 메뉴에요 🙂</h3>
-                                            </ul>
-                                        </div>`
-                    $('#searchedMenuTitle').empty()
-                    $('#searchedMenuTitle').append(result_html)
-
-                    let rows = response;
-                    for (let i = 0; i < rows.length; i++) {
-                        let menuName = rows[i]['menuName']
-                        let menuId = rows[i]['menuId']
-                        console.log("menuId: ", menuId)
-                        let searchMenu = document.getElementById("searchMenu").value
-                        let icon = ['🥦', '🍲', '🥕', '🥔', '🍞', '🍇', '🍎', '🍳', '🍖', '🧄']
-
-                        let temp_html = ``
-                        if (menuName === 'undefined') {
-                            return;
-                        } else {
-                            if (menuName.includes(document.getElementById("searchMenu").value) === true) {
-                                if (searchMenu === '' || searchMenu === null) {
-                                    alert('검색할 메뉴를 입력해주세요 🙂')
-                                } else {
-                                    temp_html = `<div class="searchedMenu" id="searchedMenuButton">
-                                                <ul>
-                                                    <button onclick=moveDetailPage('${menuId}') type="button" class="btn btn-outline-*">${icon[Math.floor(Math.random() * 10)]} ${menuName}</button>
-                                                </ul>
-                                            </div>`
-                                    $('#result_list').append(temp_html)
-                                }
-                            }
-                        }
-                    }
-                },
-                error: function (error) {
-                    alert(error.responseJSON.errorMessage);
-                },
-            })
+            location.href = '/room/' + e.target.dataset.id;
         }
     }
 
-    function moveCreatePage() {
-        window.location.href = "/menuUpload";
-    }
-
-    function moveDetailPage(menuId) {
-        console.log(menuId);
-        window.location.href = '/show/menuDetail' + '?' + $.param({ "menuId": menuId });
-    }
-
-
+    document.querySelectorAll('.join-btn').forEach(function (btn) {
+        btn.addEventListener('click', addBtnEvent);
+    });
 </script>
+{% endblock %}
 
-<body>
-    <div class="wrap">
-
-        <nav class="headerTitle">
-            <div class="container-fluid"
-                style="flex-direction: column; width: 200px; display: inline-block; justify-content: center;">
-                <a class="navbar-brand" href="/main">영양사를 위한 식단 저장소<p> 👉 '영양소'</a>
-                <button onclick="moveCreatePage()" type="button" class="btn btn-outline-success">메뉴 등록하러 가기
-                    💁‍♂️</button>
-            </div>
-        </nav>
-        <!-- <div class="headerTitle">
-            <a href="/main">영양사를 위한 식단 저장소<p> 👉 '영양소'</a>
-            <button onclick="moveCreatePage()" type="button" class="btn btn-outline-success">메뉴 등록하러 가기 💁‍♂️</button>
-        </div> -->
-        <h2 id="putNickname"></h2>
-    </div>
-    <div class="mycards" id="comment-list">
-        <div class="input-group mb-3">
-            <input id="searchMenu" type="text" class="form-control" placeholder="메뉴를 검색해보세요"
-                aria-describedby="button-addon2">
-            <button onclick="menu_search()" class="btn btn-outline-secondary" type="button"
-                id="button-addon2">검색</button>
-        </div>
-    </div>
-    <div id="searchedMenuTitle">
-
-    </div>
-    <div class="searchResult" id="result_list">
-
-    </div>
-</body>
-
-</html>
+{% block script %}
+<script>
+    window.onload = () => {
+        if (new URL(location.href).searchParams.get('error')) {
+            alert(new URL(location.href).searchParams.get('error'));
+        }
+    };
+</script>
+{% endblock %}

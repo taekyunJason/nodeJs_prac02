@@ -182,6 +182,10 @@
                 </div>`
         $('#ingredientWithOnePerson').append(temp_html)
     }
+
+    function moveCreatePage() {
+        window.location.href = "/";
+    }
 </script>
 
 
@@ -192,7 +196,11 @@
         <p>
             검색한 메뉴 정보를 아래에서 확인하세요! 😃<br />
             변경할 사항이 있다면 "수정하기" 버튼으로 수정해보세요 :)
-        </p><br />
+        </p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-primary me-md-2" type="button" onclick="moveCreatePage()">채팅하러가기!</button>
+        </div>
+        <br />
         <div class="d-grid gap-2 col-6 mx-auto">
             <button class="btn btn-success" type="button" onclick="open_box()">👩🏻‍🍳 메뉴 수정하기 ⬇️ 👨🏻‍🍳</button>
         </div>
