@@ -54,7 +54,7 @@ module.exports = (server, app, sessionMiddleware) => {
         );
         const connectSID = `${signedCookie}`;
         axios
-          .delete(`http://localhost:3000/chat/room/${roomId}`, {
+          .delete(`http://13.125.30.54:3000/chat/room/${roomId}`, {
             headers: {
               Cookie: `connect.sid=s%3A${connectSID}`,
             },
