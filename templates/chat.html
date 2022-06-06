@@ -37,11 +37,14 @@
     <label for="gif">GIF 올리기</label>
     <input type="file" id="gif" name="gif" accept="image/gif">
     <input type="text" id="chat" name="chat">
-    <button type="submit">전송</button>
+    <button type="submit" onclick="updateView()">전송</button>
 </form>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    function updateView() {
+        window.location.reload
+    }
     const socket = io.connect('http://13.125.30.54:3000/chat', {
         path: '/socket.io',
     });
